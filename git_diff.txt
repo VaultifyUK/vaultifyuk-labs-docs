@@ -1,0 +1,185 @@
+diff --git a/astro.config.mjs b/astro.config.mjs
+index 69b83b3..c56f059 100644
+--- a/astro.config.mjs
++++ b/astro.config.mjs
+@@ -2,25 +2,46 @@
+ import { defineConfig } from 'astro/config';
+ import starlight from '@astrojs/starlight';
+ 
+-// https://astro.build/config
+ export default defineConfig({
++	site: 'https://docs.labs.vaultifyuk.co.uk',
+ 	integrations: [
+ 		starlight({
+-			title: 'My Docs',
+-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
++			title: 'VaultifyUK Labs',
++			description: 'Documentation and knowledge base for VaultifyUK Labs products — Shopify tools, automation, and SaaS.',
++			editLink: {
++  				baseUrl: 'https://github.com/VaultifyUK/vaultifyuk-labs-docs/edit/main/'
++			},
++			logo: {
++				src: './src/assets/logo.svg',
++				alt: 'VaultifyUK Labs',
++			},
++			favicon: '/favicon.svg',
++			customCss: ['./src/styles/custom.css'],
++			social: [],
+ 			sidebar: [
+ 				{
+-					label: 'Guides',
++					label: 'Smart Collections',
+ 					items: [
+-						// Each item here is one entry in the navigation menu.
+-						{ label: 'Example Guide', slug: 'guides/example' },
++						{ label: 'Overview', slug: 'smart-collections/overview' },
++						{ label: 'Getting Started', slug: 'smart-collections/getting-started' },
++						{
++							label: 'Collections',
++							items: [
++								{ label: 'Creating & Taking Over Collections', slug: 'smart-collections/creating-and-taking-over-collections' },
++								{ label: 'Rule-Based Collections', slug: 'smart-collections/rule-based-collections' },
++								{ label: 'Composed Collections', slug: 'smart-collections/composed-collections' },
++							],
++						},
++						{ label: 'Product Pins', slug: 'smart-collections/product-pins' },
++						{ label: 'Sorting & Automation', slug: 'smart-collections/sorting-and-automation' },
++						{ label: 'Billing & Plans', slug: 'smart-collections/billing-and-plans' },
++						{ label: 'Troubleshooting', slug: 'smart-collections/troubleshooting' },
++						{ label: 'FAQ', slug: 'smart-collections/faq' },
+ 					],
+ 				},
+-				{
+-					label: 'Reference',
+-					items: [{ autogenerate: { directory: 'reference' } }],
+-				},
+ 			],
++			pagination: true,
++			lastUpdated: false,
+ 		}),
+ 	],
+ });
+diff --git a/public/favicon.svg b/public/favicon.svg
+index cba5ac1..29c4d7b 100644
+--- a/public/favicon.svg
++++ b/public/favicon.svg
+@@ -1 +1,4 @@
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill-rule="evenodd" d="M81 36 64 0 47 36l-1 2-9-10a6 6 0 0 0-9 9l10 10h-2L0 64l36 17h2L28 91a6 6 0 1 0 9 9l9-10 1 2 17 36 17-36v-2l9 10a6 6 0 1 0 9-9l-9-9 2-1 36-17-36-17-2-1 9-9a6 6 0 1 0-9-9l-9 10v-2Zm-17 2-2 5c-4 8-11 15-19 19l-5 2 5 2c8 4 15 11 19 19l2 5 2-5c4-8 11-15 19-19l5-2-5-2c-8-4-15-11-19-19l-2-5Z" clip-rule="evenodd"/><path d="M118 19a6 6 0 0 0-9-9l-3 3a6 6 0 1 0 9 9l3-3Zm-96 4c-2 2-6 2-9 0l-3-3a6 6 0 1 1 9-9l3 3c3 2 3 6 0 9Zm0 82c-2-2-6-2-9 0l-3 3a6 6 0 1 0 9 9l3-3c3-2 3-6 0-9Zm96 4a6 6 0 0 1-9 9l-3-3a6 6 0 1 1 9-9l3 3Z"/><style>path{fill:#000}@media (prefers-color-scheme:dark){path{fill:#fff}}</style></svg>
+\ No newline at end of file
++<?xml version="1.0" encoding="UTF-8"?>
++<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32">
++  <image width="32" height="32" xlink:href="data:image/png;base64,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"/>
++</svg>
+\ No newline at end of file
+diff --git a/src/assets/houston.webp b/src/assets/houston.webp
+deleted file mode 100644
+index 930c164..0000000
+Binary files a/src/assets/houston.webp and /dev/null differ
+diff --git a/src/content/docs/guides/example.md b/src/content/docs/guides/example.md
+deleted file mode 100644
+index ebd0f3b..0000000
+--- a/src/content/docs/guides/example.md
++++ /dev/null
+@@ -1,11 +0,0 @@
+----
+-title: Example Guide
+-description: A guide in my new Starlight docs site.
+----
+-
+-Guides lead a user through a specific task they want to accomplish, often with a sequence of steps.
+-Writing a good guide requires thinking about what your users are trying to do.
+-
+-## Further reading
+-
+-- Read [about how-to guides](https://diataxis.fr/how-to-guides/) in the Diátaxis framework
+diff --git a/src/content/docs/index.mdx b/src/content/docs/index.mdx
+index e6ed51f..7f6afa2 100644
+--- a/src/content/docs/index.mdx
++++ b/src/content/docs/index.mdx
+@@ -1,40 +1,38 @@
+ ---
+-title: Welcome to Starlight
+-description: Get started building your docs site with Starlight.
+-template: splash # Remove or comment out this line to display the site sidebar on this page.
++title: Documentation
++description: Documentation and knowledge base for VaultifyUK Labs products — Shopify tools, automation, and SaaS.
++template: splash
+ hero:
+-  tagline: Congrats on setting up a new Starlight project!
+-  image:
+-    file: ../../assets/houston.webp
++  title: VaultifyUK Labs
++  tagline: Documentation and knowledge base for our Shopify tools and automation products.
+   actions:
+-    - text: Example Guide
+-      link: /guides/example/
++    - text: Smart Collections
++      link: /smart-collections/overview/
+       icon: right-arrow
+-    - text: Read the Starlight docs
+-      link: https://starlight.astro.build
+-      icon: external
+-      variant: minimal
++      variant: primary
+ ---
+ 
+-import { Card, CardGrid } from '@astrojs/starlight/components';
++import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+ 
+-## Next steps
++## Products
+ 
+-<CardGrid stagger>
+-	<Card title="Update content" icon="pencil">
+-		Edit `src/content/docs/index.mdx` to see this page change.
+-	</Card>
+-	<Card title="Change page layout" icon="document">
+-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
+-		sidebar on this page.
+-	</Card>
+-	<Card title="Add new content" icon="add-document">
+-		Add Markdown or MDX files to `src/content/docs` to create new pages.
+-	</Card>
+-	<Card title="Configure your site" icon="setting">
+-		Edit your `sidebar` and other config in `astro.config.mjs`.
+-	</Card>
+-	<Card title="Read the docs" icon="open-book">
+-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+-	</Card>
++<CardGrid>
++  <Card title="Smart Collections" icon="list-format">
++    Intelligent Shopify collection management. Build rule-based and composed collections, pin products, and automate sorting — without touching theme code.
++
++    [View documentation →](/smart-collections/overview/)
++  </Card>
++  <Card title="More products coming soon" icon="add-document">
++    VaultifyUK Labs is building more tools for Shopify merchants and beyond. Check back for updates.
++  </Card>
+ </CardGrid>
++
++## Getting Started
++
++New to VaultifyUK Labs products? Pick the product you have installed.
++
++<LinkCard
++  title="Smart Collections — Getting Started"
++  description="Install Smart Collections and configure your first automated collection."
++  href="/smart-collections/getting-started/"
++/>
+diff --git a/src/content/docs/reference/example.md b/src/content/docs/reference/example.md
+deleted file mode 100644
+index 0224f09..0000000
+--- a/src/content/docs/reference/example.md
++++ /dev/null
+@@ -1,11 +0,0 @@
+----
+-title: Example Reference
+-description: A reference page in my new Starlight docs site.
+----
+-
+-Reference pages are ideal for outlining how things work in terse and clear terms.
+-Less concerned with telling a story or addressing a specific use case, they should give a comprehensive outline of what you're documenting.
+-
+-## Further reading
+-
+-- Read [about reference](https://diataxis.fr/reference/) in the Diátaxis framework

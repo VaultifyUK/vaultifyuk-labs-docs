@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:starlight.astro.build)",
+      "Bash(npx astro *)",
+      "Bash(node_modules/.bin/tsc --noEmit)"
+    ]
+  }
+}

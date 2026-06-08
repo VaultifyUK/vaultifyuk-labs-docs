@@ -1,0 +1,53 @@
+/*
+ * VaultifyUK Labs — Starlight theme overrides
+ *
+ * Starlight uses :root for dark mode (its default) and [data-theme='light'] for light mode.
+ * We override only the accent and gray scale to keep upgrades straightforward.
+ */
+
+/* ── Dark mode ──────────────────────────────────────────────────────────── */
+:root {
+	/* Gold accent */
+	--sl-color-accent-low:  #2a1d06;
+	--sl-color-accent:      #c9a24d;
+	--sl-color-accent-high: #e8c97a;
+
+	/* Warm near-black gray scale */
+	--sl-color-gray-1: #eaeaea;
+	--sl-color-gray-2: #c0c0c0;
+	--sl-color-gray-3: #898989;
+	--sl-color-gray-4: #555555;
+	--sl-color-gray-5: #333333;
+	--sl-color-gray-6: #1c1c1c;
+	--sl-color-gray-7: #111111;
+	--sl-color-black:  #0b0b0b;
+}
+
+/* ── Light mode ─────────────────────────────────────────────────────────── */
+[data-theme='light'] {
+	/* Amber gold — darker than brand gold for readability on white */
+	--sl-color-accent-low:  #fdf5e0;
+	--sl-color-accent:      #9b7830;
+	--sl-color-accent-high: #5c4515;
+
+	/* Warm neutral gray scale */
+	--sl-color-gray-1: #1a1a1a;
+	--sl-color-gray-2: #383838;
+	--sl-color-gray-3: #585858;
+	--sl-color-gray-4: #898989;
+	--sl-color-gray-5: #d4d4d4;
+	--sl-color-gray-6: #f0f0f0;
+	--sl-color-gray-7: #f8f8f8;
+	--sl-color-white:  #ffffff;
+}
+
+/* ── Site header ────────────────────────────────────────────────────────── */
+.site-title {
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────────────── */
+.sidebar-pane {
+	border-inline-end-color: var(--sl-color-gray-6);
+}
