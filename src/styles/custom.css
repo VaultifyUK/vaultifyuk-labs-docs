@@ -198,6 +198,22 @@ html[data-has-toc] {
   --sl-content-width: 75rem;
 }
 
+/* --vault-sidebar-clip is set by a scroll listener in SiteFooter.astro.
+   It equals the number of px the footer has scrolled into the viewport — 0
+   when footer is off-screen, growing proportionally as the footer scrolls in.
+   This prevents any mid-page gap while still stopping sidebars from overlapping. */
+@media (min-width: 50rem) {
+  .sidebar-pane {
+    inset-block-end: var(--vault-sidebar-clip, 0px);
+  }
+}
+
+@media (min-width: 72rem) {
+  .right-sidebar {
+    height: calc(100vh - var(--vault-sidebar-clip, 0px));
+  }
+}
+
 /* Right-hand table of contents */
 
 /*
@@ -208,7 +224,7 @@ html[data-has-toc] {
  * Unlayered CSS wins over @layer starlight.core without !important.
  */
 :root {
-  --vault-toc-width: 14rem;
+  --vault-toc-width: 18rem;
 }
 
 @media (min-width: 72rem) {
@@ -254,6 +270,15 @@ html[data-has-toc] {
   font-weight: 750;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.right-sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.right-sidebar a {
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 /* Search */
@@ -374,6 +399,18 @@ article.card .icon {
   color: var(--vault-muted);
   max-width: 46ch;
   line-height: 1.65;
+}
+
+@media (min-width: 50rem) {
+  /* Indent hero text away from the left edge */
+  .hero .stack {
+    padding-inline-start: 3rem;
+  }
+
+  /* Keep the CTA centred even though other copy is left-aligned */
+  .hero .actions {
+    justify-content: center;
+  }
 }
 
 /* Buttons */

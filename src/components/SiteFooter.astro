@@ -1,0 +1,157 @@
+---
+const year = new Date().getFullYear();
+---
+
+<div class="site-footer">
+	<div class="site-footer__inner">
+		<div class="site-footer__brand">
+			<span class="site-footer__name">VaultifyUK Labs</span>
+			<p class="site-footer__desc">Documentation for VaultifyUK tools and automation products.</p>
+		</div>
+
+		<nav class="site-footer__nav" aria-label="Site footer navigation">
+			<div class="site-footer__col">
+				<span class="site-footer__heading">Products</span>
+				<a href="/smart-collections/overview/">Smart Collections</a>
+			</div>
+			<div class="site-footer__col">
+				<span class="site-footer__heading">Support</span>
+				<a href="mailto:support@vaultifyuk.co.uk">support@labs.vaultifyuk.co.uk</a>
+			</div>
+			<div class="site-footer__col site-footer__col--grid">
+				<span class="site-footer__heading">Legal</span>
+				<a href="https://www.labs.vaultifyuk.co.uk/privacy">Privacy Policy</a>
+				<a href="https://www.labs.vaultifyuk.co.uk/terms">Terms of Service</a>
+				<a href="https://www.labs.vaultifyuk.co.uk/cookies">Cookie Policy</a>
+				<a href="https://www.labs.vaultifyuk.co.uk/subprocessors">Subprocessors</a>
+			</div>
+		</nav>
+	</div>
+
+	<div class="site-footer__bottom">
+		<span>&copy; {year} VaultifyUK Ltd. All rights reserved.</span>
+	</div>
+</div>
+
+<script>
+	(function () {
+		const footer = document.querySelector('.site-footer') as HTMLElement | null;
+		if (!footer) return;
+
+		const html = document.documentElement;
+
+		// How many px of the footer are currently inside the viewport — 0 when off-screen.
+		// This drives --vault-sidebar-clip so sidebars shrink proportionally as the
+		// footer scrolls into view rather than jumping all at once.
+		const sync = () => {
+			const rect = footer.getBoundingClientRect();
+			const clip = Math.max(0, window.innerHeight - rect.top);
+			html.style.setProperty('--vault-sidebar-clip', clip + 'px');
+		};
+
+		window.addEventListener('scroll', sync, { passive: true });
+		window.addEventListener('resize', sync, { passive: true });
+		sync();
+	})();
+</script>
+
+<style>
+	.site-footer {
+		width: 100%;
+		box-sizing: border-box;
+		background:
+			linear-gradient(135deg, rgba(201, 162, 77, 0.04) 0%, transparent 50%),
+			#050505;
+		border-top: 1px solid var(--vault-border-gold);
+		padding: 2.5rem var(--sl-nav-pad-x) 1.5rem;
+	}
+
+	.site-footer__inner {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem 4rem;
+		justify-content: space-between;
+		max-width: 1440px;
+		margin-inline: auto;
+		margin-bottom: 2rem;
+	}
+
+	.site-footer__brand {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		max-width: 22rem;
+	}
+
+	.site-footer__name {
+		font-size: var(--sl-text-sm);
+		font-weight: 700;
+		color: var(--vault-gold);
+		letter-spacing: 0.02em;
+	}
+
+	.site-footer__desc {
+		font-size: var(--sl-text-xs);
+		color: var(--vault-soft);
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	.site-footer__nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem 3rem;
+	}
+
+	.site-footer__col {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.site-footer__heading {
+		font-size: var(--sl-text-2xs);
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--vault-soft);
+		margin-bottom: 0.25rem;
+	}
+
+	.site-footer__col a {
+		font-size: var(--sl-text-sm);
+		color: var(--vault-muted);
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+
+	.site-footer__col a:hover {
+		color: var(--vault-gold);
+	}
+
+	/* 2×2 grid for the Legal column on tablet/desktop; single column on mobile */
+	.site-footer__col--grid {
+		display: grid;
+		grid-template-columns: repeat(2, auto);
+		column-gap: 2rem;
+	}
+
+	.site-footer__col--grid .site-footer__heading {
+		grid-column: 1 / -1;
+	}
+
+	@media (max-width: 50rem) {
+		.site-footer__col--grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.site-footer__bottom {
+		max-width: 1440px;
+		margin-inline: auto;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--vault-border-soft);
+		font-size: var(--sl-text-xs);
+		color: var(--vault-soft);
+	}
+</style>

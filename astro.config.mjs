@@ -85,6 +85,8 @@ export default defineConfig({
 			],
 			components: {
 				Head: './src/components/Head.astro',
+				Footer: './src/components/Footer.astro',
+				PageFrame: './src/components/PageFrame.astro',
 			},
 			customCss: ['./src/styles/custom.css'],
 			social: [],

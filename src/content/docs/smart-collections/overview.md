@@ -5,43 +5,59 @@ sidebar:
   order: 1
 ---
 
-:::caution[Work in progress]
-This page is a placeholder. Full content is coming soon.
-:::
+Smart Collections is a Shopify app that gives you precise, automated control over which products appear in your collections and in what order. It replaces the need to manually sort or maintain collections as your catalogue changes.
 
-## What is Smart Collections?
+![Smart Collections dashboard showing collection list with sync status badges and last-synced timestamps](SCREENSHOT_PLACEHOLDER)
 
-Smart Collections is a Shopify app built by VaultifyUK Labs that gives merchants precise, automated control over their Shopify collections.
+## What it does
 
-With Smart Collections you can:
+Smart Collections manages two things inside each collection you hand over to it:
 
-- Build rule-based collections that automatically include products matching criteria you define
-- Create composed collections that combine or exclude products from other collections
-- Pin specific products to fixed positions in any collection
-- Automate collection sorting on a schedule or in response to inventory events
+- **Membership** — which products belong in the collection, evaluated automatically from rules you define
+- **Sort order** — how those products are ordered, applied on every sync
 
-## Who is it for?
-
-Smart Collections is built for Shopify merchants who need more than Shopify's built-in automated collections offer — particularly those with large catalogues, complex merchandising rules, or specific product presentation requirements.
+Shopify continues to own everything else: the collection's title, description, image, SEO fields, and handle. You can edit those from your Shopify admin or from within Smart Collections at any time.
 
 ## How it works
 
-<!-- Screenshot placeholder convention — see src/assets/screenshots/smart-collections/ -->
-![Smart Collections dashboard showing collection list and automation status](SCREENSHOT_PLACEHOLDER)
+When you connect a collection to Smart Collections, the app takes responsibility for keeping it correct. It evaluates your rules against your full product catalogue, adds or removes products as needed, and sorts the result — automatically, every time a relevant product changes in your store.
 
-Smart Collections runs as a Shopify embedded app. It reads your product catalogue and syncs collection membership based on the rules you configure. Changes are applied automatically, without requiring you to edit your theme or write code.
+You do not need to edit your theme or write any code.
 
-## Key concepts
+## What you can configure
 
-| Concept | Description |
-|---|---|
-| Rule-Based Collection | A collection whose membership is defined by product conditions (tag, type, vendor, metafield, etc.) |
-| Composed Collection | A collection built by combining or filtering other collections |
-| Product Pin | A product held at a fixed position regardless of sort order |
-| Automation | Scheduled or event-triggered re-evaluation of collection rules |
+| What | How |
+| --- | --- |
+| Which products belong | Rule conditions based on tags, type, vendor, title, price, inventory, status, and creation date |
+| How products are ordered | Sort key (price, title, vendor, type, inventory, or creation date) with direction |
+| Fixed product positions | Top pins and bottom pins that survive all re-sorts |
+| Out-of-stock handling | Toggle to automatically push out-of-stock products to the end of the collection |
+| Composed collections | Aggregate products from multiple other collections into one |
 
-## Next steps
+## What Smart Collections does not control
 
-- [Getting Started](/smart-collections/getting-started/) — install the app and create your first collection
-- [Rule-Based Collections](/smart-collections/rule-based-collections/) — learn the full rule syntax
-- [Composed Collections](/smart-collections/composed-collections/) — combine collections with set operations
+The following are owned by Shopify and are not affected by Smart Collections:
+
+- Collection title, description, and image
+- SEO title, SEO description, and handle
+- Theme templates and publication state
+- Individual product data (title, tags, price, inventory)
+
+## Key terms
+
+| Term | Meaning |
+| --- | --- |
+| Managed collection | A collection whose membership and sort order are controlled by Smart Collections |
+| Rule-based collection | Membership is determined by conditions you define |
+| Composed collection | Membership is aggregated from one or more other managed collections |
+| Sync | One pass of evaluation and sorting for a collection |
+| Top pin | A product held at a fixed position at the top of a collection |
+| Bottom pin | A product held at a fixed position at the end of a collection |
+
+## Related topics
+
+- [Getting Started](/smart-collections/getting-started/)
+- [Creating & Taking Over Collections](/smart-collections/creating-and-taking-over-collections/)
+- [Rule-Based Collections](/smart-collections/rule-based-collections/)
+- [Composed Collections](/smart-collections/composed-collections/)
+- [Sorting & Automation](/smart-collections/sorting-and-automation/)
