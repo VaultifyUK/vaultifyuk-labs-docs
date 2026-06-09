@@ -2,8 +2,6 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
-import cloudflare from '@astrojs/cloudflare';
-
 export default defineConfig({
   site: 'https://docs.labs.vaultifyuk.co.uk',
 
@@ -119,7 +117,5 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
           pagination: true,
           lastUpdated: false,
       }),
-	],
-
-  adapter: cloudflare()
+	]
 });
