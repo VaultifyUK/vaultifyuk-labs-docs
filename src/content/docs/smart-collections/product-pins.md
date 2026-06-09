@@ -9,7 +9,7 @@ sidebar:
 This page is a placeholder. Full content is coming soon.
 :::
 
-## Overview
+## Introduction
 
 Product pins let you hold specific products at defined positions in a collection. Pinned products are not moved by sort order changes or automation runs — they stay exactly where you place them.
 

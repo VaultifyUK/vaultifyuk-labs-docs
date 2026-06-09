@@ -9,7 +9,7 @@ sidebar:
 This page is a placeholder. Full content is coming soon.
 :::
 
-## Overview
+## Introduction
 
 Rule-based collections populate automatically based on conditions you define. When Smart Collections syncs, it evaluates every product in your catalogue against your rules and updates collection membership accordingly.
 

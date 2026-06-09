@@ -9,7 +9,7 @@ sidebar:
 This page is a placeholder. Full content is coming soon.
 :::
 
-## Overview
+## Introduction
 
 Smart Collections can manage collections in two ways:
 

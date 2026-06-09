@@ -1,53 +1,576 @@
 /*
- * VaultifyUK Labs — Starlight theme overrides
- *
- * Starlight uses :root for dark mode (its default) and [data-theme='light'] for light mode.
- * We override only the accent and gray scale to keep upgrades straightforward.
+ * VaultifyUK Labs — Starlight theme
+ * Premium documentation theme based on VaultifyUK black/gold styling.
  */
-
-/* ── Dark mode ──────────────────────────────────────────────────────────── */
 :root {
-	/* Gold accent */
-	--sl-color-accent-low:  #2a1d06;
-	--sl-color-accent:      #c9a24d;
-	--sl-color-accent-high: #e8c97a;
+  --sl-font: var(--font-montserrat);
 
-	/* Warm near-black gray scale */
-	--sl-color-gray-1: #eaeaea;
-	--sl-color-gray-2: #c0c0c0;
-	--sl-color-gray-3: #898989;
-	--sl-color-gray-4: #555555;
-	--sl-color-gray-5: #333333;
-	--sl-color-gray-6: #1c1c1c;
-	--sl-color-gray-7: #111111;
-	--sl-color-black:  #0b0b0b;
+  color-scheme: dark;
+
+  --vault-bg: #000000;
+  --vault-bg-soft: #0b0b0b;
+  --vault-panel: #111111;
+  --vault-panel-soft: #151515;
+  --vault-border: rgba(255, 255, 255, 0.12);
+  --vault-border-soft: rgba(255, 255, 255, 0.08);
+  --vault-border-gold: rgba(201, 162, 77, 0.45);
+  --vault-text: #f4f4f4;
+  --vault-muted: #b8b8b8;
+  --vault-soft: #8f8f8f;
+  --vault-gold: #c9a24d;
+  --vault-gold-high: #ddb96a;
+  --vault-gold-soft: rgba(201, 162, 77, 0.45);
+
+  --sl-color-accent-low: #1c1500;
+  --sl-color-accent: var(--vault-gold);
+  --sl-color-accent-high: var(--vault-gold-high);
+
+  --sl-color-white: var(--vault-text);
+  --sl-color-gray-1: #f0f0f0;
+  --sl-color-gray-2: var(--vault-muted);
+  --sl-color-gray-3: var(--vault-soft);
+  --sl-color-gray-4: #5f5f5f;
+  --sl-color-gray-5: #333333;
+  --sl-color-gray-6: var(--vault-panel-soft);
+  --sl-color-gray-7: var(--vault-panel);
+  --sl-color-black: var(--vault-bg);
+
+  --sl-color-bg: var(--vault-bg);
+  --sl-color-bg-nav: rgba(13, 13, 13, 0.96);
+  --sl-color-bg-sidebar: var(--vault-panel);
+  --sl-color-bg-inline-code: var(--vault-panel-soft);
+
+  --sl-color-hairline: var(--vault-border);
+  --sl-color-hairline-light: var(--vault-border-soft);
+  --sl-color-hairline-shade: rgba(255, 255, 255, 0.16);
+
+  --sl-color-text: var(--vault-muted);
+  --sl-color-text-accent: var(--vault-gold-soft);
+  --sl-color-text-invert: var(--vault-gold);
+
 }
 
-/* ── Light mode ─────────────────────────────────────────────────────────── */
+/* Warm branded light mode, not default white. */
 [data-theme='light'] {
-	/* Amber gold — darker than brand gold for readability on white */
-	--sl-color-accent-low:  #fdf5e0;
-	--sl-color-accent:      #9b7830;
-	--sl-color-accent-high: #5c4515;
+  color-scheme: light;
 
-	/* Warm neutral gray scale */
-	--sl-color-gray-1: #1a1a1a;
-	--sl-color-gray-2: #383838;
-	--sl-color-gray-3: #585858;
-	--sl-color-gray-4: #898989;
-	--sl-color-gray-5: #d4d4d4;
-	--sl-color-gray-6: #f0f0f0;
-	--sl-color-gray-7: #f8f8f8;
-	--sl-color-white:  #ffffff;
+  --vault-bg: #f5f1ea;
+  --vault-bg-soft: #eee8dc;
+  --vault-panel: #fffaf0;
+  --vault-panel-soft: #f2eadc;
+  --vault-border: rgba(32, 24, 12, 0.14);
+  --vault-border-soft: rgba(32, 24, 12, 0.09);
+  --vault-border-gold: rgba(150, 114, 27, 0.42);
+  --vault-text: #1a1612;
+  --vault-muted: #342d24;
+  --vault-soft: #6a5d4f;
+  --vault-gold: #96721b;
+  --vault-gold-high: #5a4310;
+  --vault-gold-soft: rgba(150, 114, 27, 0.12);
+
+  --sl-color-accent-low: #f8ecc4;
+  --sl-color-accent: var(--vault-gold);
+  --sl-color-accent-high: var(--vault-gold-high);
+
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: var(--vault-text);
+  --sl-color-gray-2: var(--vault-muted);
+  --sl-color-gray-3: var(--vault-soft);
+  --sl-color-gray-4: #9e9080;
+  --sl-color-gray-5: #cec5b5;
+  --sl-color-gray-6: var(--vault-panel-soft);
+  --sl-color-gray-7: var(--vault-panel);
+  --sl-color-black: #080808;
+
+  --sl-color-bg: var(--vault-bg);
+  --sl-color-bg-nav: rgba(238, 234, 223, 0.96);
+  --sl-color-bg-sidebar: #eee8dc;
+  --sl-color-bg-inline-code: #e7ddce;
+
+  --sl-color-text: var(--vault-muted);
+  --sl-color-text-accent: var(--vault-gold-soft);
+  --sl-color-text-invert: var(--vault-gold);
 }
 
-/* ── Site header ────────────────────────────────────────────────────────── */
+/* Page canvas */
+body {
+  background:
+    radial-gradient(circle at top left, rgba(201, 162, 77, 0.12), transparent 36rem),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.06), transparent 28rem),
+    var(--sl-color-bg);
+  color: var(--sl-color-text);
+}
+
+[data-theme='light'] body {
+  background:
+    radial-gradient(circle at top left, rgba(150, 114, 27, 0.11), transparent 34rem),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.55), transparent 28rem),
+    var(--sl-color-bg);
+}
+
+/* Header */
+.header {
+  background: var(--sl-color-bg-nav);
+  backdrop-filter: blur(14px);
+}
+
 .site-title {
-	font-weight: 600;
-	letter-spacing: -0.01em;
+  color: var(--vault-gold);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-/* ── Sidebar ────────────────────────────────────────────────────────────── */
+/* Sidebar */
 .sidebar-pane {
-	border-inline-end-color: var(--sl-color-gray-6);
+  background: linear-gradient(180deg, var(--vault-panel), var(--vault-bg-soft));
+  border-inline-end: 1px solid var(--vault-border-soft);
+}
+
+.group-label span {
+  color: var(--vault-gold);
+  font-size: var(--sl-text-xs);
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sidebar a[aria-current='page'],
+.sidebar a[aria-current='page']:hover {
+  background: var(--vault-gold-soft);
+  color: var(--vault-gold);
+  border-radius: 0.35rem;
+}
+
+/* Main article panel */
+.main-pane {
+  background: transparent;
+}
+
+.content-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 22rem);
+}
+
+[data-theme='light'] .content-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.48), transparent 20rem);
+}
+
+/* Article typography */
+.content-panel h1,
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+  color: var(--vault-text);
+  letter-spacing: -0.03em;
+}
+
+.content-panel h1 {
+  font-weight: 800;
+}
+
+.sl-markdown-content {
+  color: var(--vault-muted);
+  line-height: 1.78;
+}
+
+.sl-markdown-content h2 {
+  margin-top: 2.75rem;
+}
+
+.sl-markdown-content strong {
+  color: var(--vault-text);
+}
+
+.sl-markdown-content a {
+  color: var(--vault-gold);
+  text-underline-offset: 0.18em;
+}
+
+.sl-markdown-content a:hover {
+  color: var(--vault-gold-high);
+}
+
+/* Wider default content width on pages that have sidebars.
+   Pages without sidebars (homepage etc.) keep Starlight's 45rem default. */
+html[data-has-sidebar],
+html[data-has-toc] {
+  --sl-content-width: 75rem;
+}
+
+/* Right-hand table of contents */
+
+/*
+ * Narrows the TOC sidebar. Default uses --sl-sidebar-width (~300px) for both
+ * sidebars; the TOC only needs to show short link labels so we shrink it.
+ * Both the container (positions the reserved space) and the fixed inner panel
+ * need the same explicit width; .main-pane width formula is adjusted to match.
+ * Unlayered CSS wins over @layer starlight.core without !important.
+ */
+:root {
+  --vault-toc-width: 14rem;
+}
+
+@media (min-width: 72rem) {
+  .right-sidebar-container {
+    width: var(--vault-toc-width);
+  }
+
+  .right-sidebar {
+    width: var(--vault-toc-width);
+    background: transparent;
+    border-inline-start: 1px solid var(--vault-border-soft);
+  }
+
+  /* flex: 1 fills all remaining space after the fixed-width TOC column,
+     eliminating the gap that appears when the old calc() doesn't sum to 100%. */
+  [data-has-sidebar][data-has-toc] .main-pane {
+    flex: 1;
+  }
+
+  /* Center content in the available main-pane width rather than right-aligning
+     it against the TOC (Starlight's default "auto 0"). Unlayered CSS beats
+     @layer starlight.core so no !important needed. */
+  .content-panel .sl-container {
+    margin-inline: auto;
+    transition: max-width 0.25s ease;
+  }
+
+  /* Grow content into freed space as sidebars collapse.
+     Gate on data-has-* so these rules never fire on pages without sidebars. */
+  html[data-has-toc][data-toc-collapsed] .content-panel .sl-container,
+  html[data-has-sidebar][data-sidebar-collapsed] .content-panel .sl-container {
+    max-width: 100rem;
+  }
+
+  html[data-has-sidebar][data-has-toc][data-sidebar-collapsed][data-toc-collapsed] .content-panel .sl-container {
+    max-width: 110rem;
+  }
+}
+
+#starlight__on-this-page {
+  color: var(--vault-soft);
+  font-size: var(--sl-text-xs);
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Search */
+site-search button,
+.search-input,
+button[data-open-modal] {
+  background: #050505;
+  border: 1px solid var(--vault-border);
+  color: var(--vault-muted);
+  border-radius: 0.55rem;
+}
+
+[data-theme='light'] site-search button,
+[data-theme='light'] .search-input,
+[data-theme='light'] button[data-open-modal] {
+  background: #fffaf0;
+  border-color: rgba(32, 24, 12, 0.15);
+}
+
+/* Center the search in the header */
+@media (min-width: 50rem) {
+  /*
+   * Override Starlight's asymmetric header grid [sidebar-width, 1fr, auto]
+   * with a symmetric layout [1fr, fixed-search-width, 1fr].
+   * The fixed middle column defines the search width and sits exactly at
+   * the header's visual midpoint regardless of logo or right-item sizes.
+   */
+  .header {
+    grid-template-columns: 1fr min(680px, 48vw) 1fr;
+  }
+
+  /* site-search is display:inline by default — make it fill the column */
+  site-search {
+    display: block;
+    width: 100%;
+  }
+
+  /* Button fills site-search, label left-aligned like a real input.
+     Starlight's Search component scopes max-width: 22rem onto this button
+     via a hashed class — !important on max-width is the only reliable override. */
+  button[data-open-modal] {
+    width: 100%;
+    max-width: none !important;
+    justify-content: flex-start;
+  }
+}
+
+/* Remove the social-icons separator — we have no social links so the
+   ::after divider renders as a stray vertical line in the header. */
+.social-icons::after {
+  display: none;
+}
+
+/* Cards */
+article.card,
+.sl-link-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.028));
+  border: 1px solid var(--vault-border);
+  border-radius: 1.2rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+  transition:
+    border-color 0.16s ease,
+    background 0.16s ease,
+    transform 0.16s ease;
+}
+
+article.card:hover,
+.sl-link-card:hover {
+  border-color: var(--vault-border-gold);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+  transform: translateY(-1px);
+}
+
+.sl-link-card:hover .icon {
+  color: var(--vault-gold);
+}
+
+[data-theme='light'] article.card,
+[data-theme='light'] .sl-link-card {
+  background: rgba(255, 250, 240, 0.92);
+  border-color: rgba(32, 24, 12, 0.12);
+  box-shadow: 0 18px 44px rgba(32, 24, 12, 0.08);
+}
+
+article.card .title,
+.sl-link-card .title {
+  color: var(--vault-text);
+  font-weight: 700;
+}
+
+article.card .icon {
+  color: var(--vault-gold);
+}
+
+/* Homepage splash */
+.hero {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(201, 162, 77, 0.14), transparent 42rem),
+    radial-gradient(circle at 88% 0%, rgba(255, 255, 255, 0.055), transparent 32rem);
+  border-bottom: 1px solid var(--vault-border-soft);
+}
+
+[data-theme='light'] .hero {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(150, 114, 27, 0.14), transparent 38rem),
+    radial-gradient(circle at 88% 0%, rgba(255, 255, 255, 0.7), transparent 30rem);
+}
+
+.hero h1 {
+  color: var(--vault-text);
+  font-weight: 850;
+  letter-spacing: -0.045em;
+}
+
+.tagline {
+  color: var(--vault-muted);
+  max-width: 46ch;
+  line-height: 1.65;
+}
+
+/* Buttons */
+.sl-link-button.primary {
+  background: var(--vault-gold);
+  border-color: var(--vault-gold);
+  color: #101010;
+  font-weight: 750;
+  box-shadow: 0 0 34px rgba(201, 162, 77, 0.22);
+}
+
+.sl-link-button.primary:hover {
+  background: var(--vault-gold-high);
+  border-color: var(--vault-gold-high);
+  color: #101010;
+}
+
+[data-theme='light'] .sl-link-button.primary {
+  color: #ffffff;
+  box-shadow: none;
+}
+
+/* Tables */
+.sl-markdown-content table {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--vault-border);
+  border-radius: 0.9rem;
+  overflow: hidden;
+}
+
+.sl-markdown-content th {
+  color: var(--vault-gold);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: var(--sl-text-xs);
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sl-markdown-content td,
+.sl-markdown-content th {
+  border-color: var(--vault-border-soft);
+}
+
+/* Code */
+.sl-markdown-content code {
+  background: var(--vault-panel-soft);
+  border: 1px solid var(--vault-border-soft);
+  color: var(--vault-text);
+  border-radius: 0.35rem;
+}
+
+.expressive-code {
+  border: 1px solid var(--vault-border);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* Asides */
+.starlight-aside {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+  border-color: var(--vault-border);
+  border-radius: 1rem;
+}
+
+.starlight-aside--caution {
+  background: rgba(201, 162, 77, 0.07);
+  border-inline-start-color: var(--vault-gold);
+}
+
+.starlight-aside--caution .starlight-aside__title {
+  color: var(--vault-gold-high);
+}
+
+/* Pagination cards */
+.pagination-links a {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--vault-border);
+  border-radius: 1rem;
+}
+
+.pagination-links a:hover {
+  border-color: var(--vault-border-gold);
+}
+
+/* Logo */
+.site-title img,
+.logo img {
+  border-radius: 0.45rem;
+}
+
+
+/* Force dark-only — theme picker is hidden via config head script */
+starlight-theme-select {
+  display: none;
+}
+
+/* ─── Sidebar collapse ─────────────────────────────────────────────────────── */
+
+/* Buttons hidden by default — shown only in the relevant media queries */
+.sidebar-toggle,
+.toc-toggle {
+  display: none;
+}
+
+@media (min-width: 50rem) {
+  /* Smooth sidebar slide and main-frame padding change */
+  .sidebar-pane {
+    transition: transform 0.25s ease;
+  }
+
+  .main-frame {
+    transition: padding-inline-start 0.25s ease;
+  }
+
+  /* Shared tab-button styles — display is set per-button below, gated on the
+     relevant data attribute so buttons never appear on pages without sidebars. */
+  .sidebar-toggle,
+  .toc-toggle {
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    z-index: calc(var(--sl-z-index-menu) + 1);
+    width: 0.875rem;
+    height: 2.5rem;
+    padding: 0;
+    background: var(--vault-panel);
+    border: 1px solid var(--vault-border);
+    color: var(--vault-soft);
+    cursor: pointer;
+    transition:
+      left 0.25s ease,
+      right 0.25s ease,
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .sidebar-toggle:hover,
+  .toc-toggle:hover {
+    color: var(--vault-gold);
+    background: var(--vault-panel-soft);
+  }
+
+  /* ── Left sidebar toggle — only on pages with a sidebar ── */
+  html[data-has-sidebar] .sidebar-toggle {
+    display: flex;
+    left: var(--sl-sidebar-width);
+    transform: translateY(-50%);
+    border-inline-start: none;
+    border-radius: 0 0.45rem 0.45rem 0;
+  }
+
+  html[data-sidebar-collapsed] .sidebar-pane {
+    transform: translateX(-100%);
+  }
+
+  html[data-sidebar-collapsed] .main-frame {
+    padding-inline-start: 0 !important;
+  }
+
+  html[data-sidebar-collapsed] .sidebar-toggle {
+    left: 0;
+  }
+}
+
+/* ── Right TOC toggle (needs 72rem breakpoint, same as the TOC itself) ── */
+@media (min-width: 72rem) {
+  .right-sidebar-container {
+    transition: width 0.25s ease;
+  }
+
+  .right-sidebar {
+    transition: transform 0.25s ease;
+  }
+
+  /* Only show on pages that have a TOC */
+  html[data-has-toc] .toc-toggle {
+    display: flex;
+    right: var(--vault-toc-width);
+    transform: translateY(-50%);
+    border-inline-end: none;
+    border-radius: 0.45rem 0 0 0.45rem;
+  }
+
+  html[data-toc-collapsed] .right-sidebar {
+    transform: translateX(100%);
+  }
+
+  /* Shrink the container to 0 so main-pane (flex:1) fills the freed space */
+  html[data-toc-collapsed] .right-sidebar-container {
+    width: 0;
+  }
+
+  html[data-toc-collapsed] .toc-toggle {
+    right: 0;
+  }
 }

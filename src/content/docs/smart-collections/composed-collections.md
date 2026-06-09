@@ -9,7 +9,7 @@ sidebar:
 This page is a placeholder. Full content is coming soon.
 :::
 
-## Overview
+## Introduction
 
 Composed collections let you build a collection from the membership of other collections using set operations. Instead of defining product rules directly, you reference existing collections and define how their products combine.
 

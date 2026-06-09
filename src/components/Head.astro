@@ -1,0 +1,7 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import StarlightHead from '@astrojs/starlight/components/Head.astro';
+import { Font } from 'astro:assets';
+---
+<StarlightHead {...Astro.props}><slot /></StarlightHead>
+<Font cssVariable="--font-montserrat" preload />
