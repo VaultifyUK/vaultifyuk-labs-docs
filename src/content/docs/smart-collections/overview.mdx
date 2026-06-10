@@ -1,0 +1,74 @@
+---
+title: Smart Collections Overview
+description: An introduction to Smart Collections — what it does, who it's for, and how it fits into your Shopify store.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Smart Collections is a Shopify app that gives you precise, automated control over which products appear in your collections and in what order. It replaces the need to manually sort or maintain collections as your catalogue changes.
+
+![Smart Collections dashboard showing collection list with sync status badges and last-synced timestamps](/screenshots/placeholder.png)
+
+## How it works
+
+When you connect a collection to Smart Collections, the app takes responsibility for keeping it correct. It evaluates your rules against your full product catalogue, adds or removes products as needed, and sorts the result — automatically, every time a relevant product changes in your store.
+
+You do not need to edit your theme or write any code.
+
+## What you can configure
+
+<CardGrid>
+  <Card title="Membership rules" icon="document">
+    Define which products belong using conditions on tags, type, vendor, title, price, inventory, status, and creation date.
+  </Card>
+  <Card title="Sort order" icon="list-format">
+    Choose a sort key (price, title, vendor, type, inventory, or creation date) and direction. Applied automatically on every sync.
+  </Card>
+  <Card title="Product pins" icon="star">
+    Hold specific products at fixed positions at the top or bottom of a collection. Pins survive all re-sorts.
+  </Card>
+  <Card title="Out-of-stock handling" icon="down-caret">
+    Toggle automatic demotion of zero-inventory products to the end of the collection. Enabled by default.
+  </Card>
+  <Card title="Composed collections" icon="puzzle">
+    Aggregate products from multiple other managed collections into one, with optional local rule filtering.
+  </Card>
+  <Card title="Automatic sync" icon="sync">
+    Product creates, updates, and deletes trigger automatic re-evaluation — no manual intervention needed.
+  </Card>
+</CardGrid>
+
+## What Smart Collections does not control
+
+The following are owned by Shopify and are not affected by Smart Collections:
+
+- Collection title, description, and image
+- SEO title, SEO description, and handle
+- Theme templates and publication state
+- Individual product data (title, tags, price, inventory)
+
+:::note
+You can still edit collection title, description, image, and SEO fields from within Smart Collections — changes are written directly to Shopify. Smart Collections is just providing the editing surface; Shopify remains the source of truth for that content.
+:::
+
+## Key terms
+
+| Term | Meaning |
+| --- | --- |
+| Managed collection | A collection whose membership and sort order are controlled by Smart Collections |
+| Rule-based collection | Membership is determined by conditions you define |
+| Composed collection | Membership is aggregated from one or more other managed collections |
+| Sync | One pass of evaluation and sorting for a collection |
+| Top pin | A product held at a fixed position at the start of a collection |
+| Bottom pin | A product held at a fixed position at the end of a collection |
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Getting Started" href="/smart-collections/getting-started/" description="Install the app and create your first automated collection." />
+  <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="Full reference for condition types and operators." />
+  <LinkCard title="Composed Collections" href="/smart-collections/composed-collections/" description="Aggregate products from multiple source collections." />
+  <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Sort keys, out-of-stock demotion, and automatic sync." />
+</CardGrid>

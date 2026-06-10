@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   site: 'https://docs.labs.vaultifyuk.co.uk',
@@ -117,5 +118,6 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
           pagination: true,
           lastUpdated: false,
       }),
+      mdx({ gfm: true, optimize: true }),
 	]
 });

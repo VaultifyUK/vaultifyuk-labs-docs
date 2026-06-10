@@ -1,0 +1,101 @@
+---
+title: Sorting & Automation
+description: Control how products are ordered within collections, configure out-of-stock demotion, and understand how Smart Collections keeps collections in sync automatically.
+sidebar:
+  order: 7
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Smart Collections manages two things for every collection: which products belong (determined by rules), and in what order they appear (determined by sort configuration). This page covers sort order and the automatic sync that keeps collections up to date.
+
+## Sort keys
+
+Each collection is sorted by a single field in a direction you choose.
+
+| Sort key | Direction options |
+| --- | --- |
+| Created date | Newest first, Oldest first |
+| Price | Low to High, High to Low |
+| Title | A to Z, Z to A |
+| Vendor | A to Z, Z to A |
+| Product type | A to Z, Z to A |
+| Inventory quantity | High to Low, Low to High |
+
+![Sort configuration panel showing the sort key dropdown and direction toggle](/screenshots/placeholder.png)
+
+Price sorting uses the lowest variant price for each product. Inventory sorting uses the total across all variants and locations.
+
+To apply a sort change, click **Save sort**. Smart Collections enqueues a sort job immediately.
+
+## Out-of-stock demotion
+
+When enabled, any product with zero total inventory is moved to the end of the collection, after all in-stock products are sorted. Within the out-of-stock group, products remain in their normal sort order relative to each other.
+
+Out-of-stock demotion is **enabled by default** for all new collections.
+
+:::tip
+Out-of-stock demotion works alongside any sort key. With "Price: Low to High", in-stock products appear in price order first, followed by out-of-stock products also in price order.
+:::
+
+Pinned products are exempt from out-of-stock demotion. See [Product Pins](/smart-collections/product-pins/).
+
+## The sort stack
+
+Smart Collections applies sort rules in a fixed priority order. Higher layers take absolute precedence:
+
+| Layer | What it does |
+| --- | --- |
+| 1 — Top pins | Placed at positions 1, 2, 3, … Nothing overrides these. |
+| 2 — Sort key | Applied to all un-pinned products. |
+| 3 — Out-of-stock demotion | Zero-inventory products moved to the end, preserving their relative sort order within the out-of-stock group. |
+| 4 — Bottom pins | Placed at the last positions. Nothing overrides these. |
+
+## Automatic sync
+
+Smart Collections keeps collections in sync automatically. You do not need to trigger re-syncs manually for day-to-day product changes.
+
+### What triggers a sync
+
+| Event | Response |
+| --- | --- |
+| Product created | All managed collections for your store are re-evaluated |
+| Product updated (title, tags, price, status, inventory, vendor, type) | All managed collections for your store are re-evaluated |
+| Product deleted | Product removed from all collections; affected collections re-sorted |
+| Rules saved | The affected collection is re-evaluated and re-sorted |
+| Sort settings saved | The affected collection is re-sorted |
+| Collection modified in Shopify admin (sort mode changed, products edited manually) | The affected collection is re-evaluated to restore app ownership |
+
+Syncs triggered by product changes typically complete within a few seconds, though larger catalogues may take longer.
+
+### Manual sync
+
+Trigger an immediate sync at any time from the collection detail page by clicking **Sync now**. This runs a full evaluation and sort regardless of whether anything has changed.
+
+### Sort order in Shopify admin
+
+Smart Collections sets the sort mode for every managed collection to **Manual** in Shopify. This is required for the app to control product positions. If you change the sort mode in Shopify admin, Smart Collections restores Manual on the next sync.
+
+:::caution
+Manual reordering you do in Shopify admin for a managed collection will be overwritten on the next sync. To control positions in a managed collection, use [Product Pins](/smart-collections/product-pins/) in Smart Collections instead.
+:::
+
+## Sync history
+
+The collection detail page shows the last 10 syncs for that collection, including:
+
+- What triggered the sync (product update, rule save, manual, etc.)
+- When it ran and how long it took
+- Products added, removed, and reordered
+- Whether it succeeded or failed
+
+For a shop-wide view across all managed collections, use the **Sync** section in the main navigation.
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Product Pins" href="/smart-collections/product-pins/" description="Hold specific products at fixed positions — exempt from sort and demotion." />
+  <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="How membership is evaluated before sorting applies." />
+  <LinkCard title="Troubleshooting" href="/smart-collections/troubleshooting/" description="Diagnose sort order and sync issues." />
+  <LinkCard title="FAQ" href="/smart-collections/faq/" description="Common questions about sort order and automation." />
+</CardGrid>

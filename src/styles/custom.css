@@ -47,7 +47,6 @@
   --sl-color-text: var(--vault-muted);
   --sl-color-text-accent: var(--vault-gold-soft);
   --sl-color-text-invert: var(--vault-gold);
-
 }
 
 /* Warm branded light mode, not default white. */
@@ -90,6 +89,10 @@
   --sl-color-text: var(--vault-muted);
   --sl-color-text-accent: var(--vault-gold-soft);
   --sl-color-text-invert: var(--vault-gold);
+}
+
+.site-title span {
+  display: none;
 }
 
 /* Page canvas */
@@ -196,6 +199,10 @@ body {
 html[data-has-sidebar],
 html[data-has-toc] {
   --sl-content-width: 75rem;
+}
+
+html:not([data-has-sidebar]):not([data-has-toc]) {
+  --sl-content-width: 85rem;
 }
 
 /* --vault-sidebar-clip is set by a scroll listener in SiteFooter.astro.
@@ -395,6 +402,10 @@ article.card .icon {
   letter-spacing: -0.045em;
 }
 
+.uk {
+  color: var(--vault-gold);
+}
+
 .tagline {
   color: var(--vault-muted);
   max-width: 46ch;
@@ -405,11 +416,6 @@ article.card .icon {
   /* Indent hero text away from the left edge */
   .hero .stack {
     padding-inline-start: 3rem;
-  }
-
-  /* Keep the CTA centred even though other copy is left-aligned */
-  .hero .actions {
-    justify-content: center;
   }
 }
 
@@ -433,8 +439,12 @@ article.card .icon {
   box-shadow: none;
 }
 
-/* Tables */
+/* Tables — normal markdown content.
+   Starlight's @layer sets display:block on these tables (for mobile scroll). We
+   need an explicit display:table + width:100% in unlayered CSS to override it. */
 .sl-markdown-content table {
+  display: table;
+  width: 100%;
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--vault-border);
   border-radius: 0.9rem;
@@ -453,6 +463,36 @@ article.card .icon {
 .sl-markdown-content td,
 .sl-markdown-content th {
   border-color: var(--vault-border-soft);
+  padding-inline: 1rem;
+}
+
+/* Tables inside Starlight tab panels.
+   Starlight's @layer sets display:block on all .sl-markdown-content tables to enable
+   horizontal scrolling on mobile. Inside tab panels this collapses the table to
+   content-width. The higher-specificity selector here restores display:table so
+   width:100% works correctly, and adds matching vault theme styling. */
+starlight-tabs [role="tabpanel"] table {
+  display: table;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--vault-border);
+  border-radius: 0.9rem;
+  overflow: hidden;
+}
+
+starlight-tabs [role="tabpanel"] th {
+  color: var(--vault-gold);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: var(--sl-text-xs);
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+starlight-tabs [role="tabpanel"] td,
+starlight-tabs [role="tabpanel"] th {
+  border-color: var(--vault-border-soft);
+  padding-inline: 1rem;
 }
 
 /* Code */
@@ -610,4 +650,13 @@ starlight-theme-select {
   html[data-toc-collapsed] .toc-toggle {
     right: 0;
   }
+}
+
+.faq-item summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.faq-item[open] summary {
+  color: var(--vault-gold);
 }

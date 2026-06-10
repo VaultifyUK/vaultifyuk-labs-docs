@@ -1,0 +1,188 @@
+---
+title: Rule-Based Collections
+description: Define collection membership using product conditions — tags, type, vendor, title, price, inventory, status, and creation date.
+sidebar:
+  order: 4
+---
+
+import { Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+A rule-based collection populates automatically based on conditions you define. Every time Smart Collections syncs, it evaluates your full product catalogue against those conditions and updates membership accordingly — adding products that now match and removing products that no longer do.
+
+![Rule builder interface showing multiple conditions with an AND/OR toggle and a live product count](/screenshots/placeholder.png)
+
+## How conditions work
+
+Each condition targets one product field and checks it against a value using an operator. A product is included in the collection if it satisfies the conditions, according to the logic mode you choose.
+
+### Logic modes
+
+At the top of the rule builder, select one of two modes:
+
+- **All conditions must match (AND)** — a product is included only if it satisfies every condition
+- **Any condition must match (OR)** — a product is included if it satisfies at least one condition
+
+:::note
+Nested condition groups — combining AND and OR in the same rule — are not yet available in the rule builder UI. Each rule currently operates with a single root-level AND or OR. Nested logic is coming in a future update.
+:::
+
+### Live product count
+
+As you add or change conditions, a live count shows how many products currently match your rules. Use this to confirm your rules are producing the expected result before saving.
+
+## Available conditions
+
+<Tabs>
+  <TabItem label="Tags">
+
+| Operator | Behaviour |
+| --- | --- |
+| includes | Product has this tag |
+| does not include | Product does not have this tag |
+| includes any of | Product has at least one of the listed tags |
+| includes all of | Product has every one of the listed tags |
+
+:::tip
+Tag matching is case-insensitive — `Sale` and `sale` match the same products. Whitespace does matter: a tag value with a leading or trailing space will not match a tag without one, so ensure your condition values are trimmed.
+:::
+
+  </TabItem>
+  <TabItem label="Product type">
+
+| Operator | Behaviour |
+| --- | --- |
+| equals | Product type exactly matches |
+| does not equal | Product type does not match |
+| is one of | Product type matches any value in the list |
+| contains | Product type includes the value as a substring |
+| does not contain | Product type does not include the value |
+
+  </TabItem>
+  <TabItem label="Vendor">
+
+| Operator | Behaviour |
+| --- | --- |
+| equals | Vendor name exactly matches |
+| does not equal | Vendor name does not match |
+| is one of | Vendor matches any value in the list |
+| contains | Vendor name includes the value as a substring |
+| does not contain | Vendor name does not include the value |
+
+  </TabItem>
+  <TabItem label="Title">
+
+| Operator | Behaviour |
+| --- | --- |
+| contains | Title includes the value |
+| does not contain | Title does not include the value |
+| equals | Title exactly matches |
+| does not equal | Title does not exactly match |
+| starts with | Title begins with the value |
+
+  </TabItem>
+  <TabItem label="Status">
+
+| Value | Matches |
+| --- | --- |
+| Active | Published, active products |
+| Draft | Products in draft status |
+| Archived | Archived products |
+
+:::tip
+To exclude draft and archived products, add a `Status = Active` condition to your rules.
+:::
+
+  </TabItem>
+  <TabItem label="Price">
+
+| Operator | Behaviour |
+| --- | --- |
+| greater than | Price is above the value |
+| less than | Price is below the value |
+| between | Price is within the given range (inclusive) |
+
+Price conditions use the product's lowest variant price.
+
+  </TabItem>
+  <TabItem label="Inventory">
+
+| Operator | Behaviour |
+| --- | --- |
+| in stock | Total inventory across all variants is greater than zero |
+| out of stock | Total inventory is zero |
+| greater than N | Total inventory exceeds N |
+| less than N | Total inventory is below N |
+| between N and M | Total inventory is within the range |
+
+Inventory conditions use the total across all variants and all locations.
+
+  </TabItem>
+  <TabItem label="Created date">
+
+| Operator | Behaviour |
+| --- | --- |
+| within last N days | Product was created in the last N days (rolling window) |
+| before | Product was created before a specific date |
+| after | Product was created after a specific date |
+
+:::tip
+"Within last N days" is a rolling window relative to today. A condition of "within last 30 days" always returns the most recently created products, updating automatically as days pass.
+:::
+
+  </TabItem>
+</Tabs>
+
+## Example rules
+
+### All in-stock active products from a specific vendor
+
+Use **All conditions must match (AND)**:
+
+```text
+Status = Active
+AND
+Vendor = Acme Co
+AND
+Inventory = In stock
+```
+
+### Sale products under £100, or clearance with low stock
+
+Use **Any condition must match (OR)** and add two conditions:
+
+```text
+Tag includes "sale" AND Price less than 100
+```
+
+```text
+Tag includes "clearance" AND Inventory less than 5
+```
+
+### New arrivals (last 30 days)
+
+```text
+Created date = within last 30 days
+AND
+Status = Active
+```
+
+## Saving and syncing
+
+When you click **Save**, Smart Collections saves your rules and immediately enqueues a full evaluation sync. The collection updates in Shopify within seconds for most stores.
+
+If a sync is already in progress when you save, your new rules apply on the next evaluation cycle.
+
+## What happens when a product stops matching
+
+If a product's attributes change — a tag is removed, price changes, it goes out of stock — and it no longer satisfies your rules, Smart Collections removes it from the collection on the next sync. The product itself is not affected; only its membership in this collection changes.
+
+If a product changes to match your rules, it is added automatically on the next sync.
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Composed Collections" href="/smart-collections/composed-collections/" description="Build collections from other collections instead of direct rules." />
+  <LinkCard title="Product Pins" href="/smart-collections/product-pins/" description="Hold specific products at fixed positions regardless of rules." />
+  <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Control how matched products are ordered." />
+  <LinkCard title="Troubleshooting" href="/smart-collections/troubleshooting/" description="Diagnose unexpected membership results." />
+</CardGrid>

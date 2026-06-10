@@ -1,0 +1,113 @@
+---
+title: Billing & Plans
+description: Smart Collections pricing plans, feature limits, trial period, and billing information.
+sidebar:
+  order: 8
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Smart Collections is billed through Shopify on a monthly subscription. All pricing is in USD. All paid plans include a **14-day free trial**.
+
+## Plans
+
+<CardGrid>
+  <Card title="Free — $0/month" icon="open-book">
+
+Up to **2 managed collections**.
+
+All features included. No trial needed — free forever.
+
+  </Card>
+  <Card title="Starter — $19/month" icon="rocket">
+
+Up to **6 managed collections**.
+
+All features included. 14-day free trial.
+
+  </Card>
+  <Card title="Growth — $49/month" icon="star">
+
+Up to **25 managed collections**.
+
+All features included. 14-day free trial.
+
+  </Card>
+  <Card title="Pro — $99/month" icon="heart">
+
+Up to **75 managed collections**.
+
+All features included. 14-day free trial.
+
+  </Card>
+</CardGrid>
+
+## What's included on every plan
+
+All plans — including Free — include the full feature set. The only difference between plans is the number of collections you can manage.
+
+| Feature | Included |
+| --- | --- |
+| Rule-based collections | ✓ |
+| Composed collections | ✓ |
+| Product pins (top & bottom) | ✓ |
+| Out-of-stock demotion | ✓ |
+| Automatic webhook sync | ✓ |
+| Manual sync trigger | ✓ |
+| Sync history and dashboard | ✓ |
+
+## Free trial
+
+All paid plans include a 14-day free trial with full access to the plan's features. No charge is applied until the trial ends.
+
+You can cancel before the trial ends with no cost.
+
+## What counts as a managed collection
+
+A managed collection is any Shopify collection connected to Smart Collections — either created through the app or taken over from Shopify. Collections you release or delete no longer count toward your limit.
+
+## Reaching your collection limit
+
+When you reach the limit for your plan, Smart Collections continues to sync all existing managed collections without interruption. You will see a prompt to upgrade when you try to connect an additional collection.
+
+:::note
+Smart Collections uses soft limits. Existing collections are never paused or stopped when you reach your plan limit — only adding new collections requires an upgrade.
+:::
+
+## Billing through Shopify
+
+Billing is handled entirely by Shopify and charged through your existing Shopify billing cycle. No separate payment method is required.
+
+To manage or cancel your subscription:
+
+1. Go to **Shopify Admin → Apps**
+2. Find **Smart Collections** and click **Manage subscription**
+
+You can also manage billing from within Smart Collections under **Settings → Billing**.
+
+Subscription changes — including trial expiry, payment failures, and plan upgrades made through Shopify — are processed automatically. Your active plan is always reflected in the app without needing to refresh.
+
+## Changing plans
+
+You can upgrade or downgrade at any time. Upgrades take effect immediately. If you downgrade to a lower collection limit, existing collections continue to sync — you will need to reduce your active count before adding new ones.
+
+## Cancellation
+
+You can cancel at any time. Your subscription remains active until the end of the current billing period. After cancellation:
+
+- Smart Collections stops managing your collections
+- Your Shopify collections are not deleted
+- The products and sort order last set by Smart Collections remain in place
+- Your Smart Collections configuration and sync history remain accessible while the app stays installed
+
+:::caution
+Cancelling your subscription is different from uninstalling the app. If you uninstall Smart Collections from Shopify, all app data — including sync history and collection configuration — is permanently deleted immediately. Uninstalling cannot be undone.
+:::
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Getting Started" href="/smart-collections/getting-started/" description="Install the app and create your first collection." />
+  <LinkCard title="Creating & Taking Over Collections" href="/smart-collections/creating-and-taking-over-collections/" description="How to connect collections to Smart Collections." />
+  <LinkCard title="FAQ" href="/smart-collections/faq/" description="Common billing and plan questions." />
+</CardGrid>

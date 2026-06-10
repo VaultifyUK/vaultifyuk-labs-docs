@@ -1,0 +1,159 @@
+---
+title: Troubleshooting
+description: Diagnose and resolve common issues with Smart Collections — products missing, unexpected membership, sync errors, and sort order problems.
+sidebar:
+  order: 9
+---
+
+import { Steps, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+This page covers the most common issues merchants encounter and how to resolve them. Each section links to the relevant settings page if you need to make a change.
+
+---
+
+## Products missing from a collection
+
+**Symptom:** Products you expect to see in the collection are not appearing, or the collection has fewer products than expected.
+
+<Steps>
+
+1. **Check last sync time** — open the collection detail page and look at the **Last synced** timestamp. If a sync has not run recently, click **Sync now**.
+
+2. **Check the live product count** — open the rule builder and observe the live count. If it is lower than expected, your rules may be filtering out products you want to include.
+
+3. **Review each rule condition:**
+   - Tag matching is case-insensitive (`sale` and `Sale` are treated the same). Whitespace does matter — a tag with a leading or trailing space will not match a trimmed condition value
+   - If `Status = Active` is set, draft and archived products are excluded
+   - "In stock" requires total inventory greater than zero across all variants
+   - "Within last N days" is a rolling window — a product created 31 days ago does not match "within last 30 days"
+
+4. **Check the logic mode** — verify whether "All conditions must match (AND)" or "Any condition must match (OR)" is correct for your intent
+
+</Steps>
+
+---
+
+## Products appearing that should not be in the collection
+
+**Symptom:** Products you did not intend to include are appearing.
+
+<Steps>
+
+1. Open the rule builder and review your conditions carefully
+2. Check the **logic mode** at the top — OR logic includes any product that satisfies at least one condition, which is often broader than expected
+3. Look for overly broad conditions — a tag condition using "includes any of" with a common tag may match far more products than intended
+4. Tighten conditions or switch from OR to AND logic, then click **Save** and check the live count
+
+</Steps>
+
+---
+
+## A sync is not running
+
+**Symptom:** The collection has not updated despite recent product changes or a rule save.
+
+<Steps>
+
+1. Check the **Sync history** section on the collection detail page for recent activity
+2. If no recent sync is shown, click **Sync now** to trigger one immediately
+3. If the sync runs but produces no changes, this is normal — Smart Collections confirms the current state is already correct
+4. If a sync shows **Syncing** for more than 30 minutes, it will be automatically marked as failed — click **Sync now** to retry
+5. If the collection shows **Error** status, check the error message in the sync history and see [Sync history shows errors](#sync-history-shows-errors) below
+
+</Steps>
+
+---
+
+## Collection shows an error after being deleted in Shopify admin
+
+**Symptom:** A collection shows Error status in Smart Collections because it was deleted from Shopify admin, not through the app.
+
+<Steps>
+
+1. Open the collection in Smart Collections
+2. Scroll to the **Danger Zone** section
+3. Click **Stop managing collection**
+4. Confirm — Smart Collections detects the Shopify collection is gone and clears the record cleanly with no error
+
+</Steps>
+
+Sync history is preserved for reference after cleanup.
+
+---
+
+## Sort order is not being applied
+
+**Symptom:** Products are not appearing in the expected order, or the order keeps reverting.
+
+**Check each of these in order:**
+
+**Sort mode changed in Shopify admin** — Smart Collections sets the sort mode to Manual. If you changed it in Shopify admin, Smart Collections restores Manual on the next sync and re-applies its sort. Click **Sync now** to force an immediate correction.
+
+**Product pins affecting positions** — top-pinned products always appear first; bottom-pinned products always appear last. If specific products appear stuck at unexpected positions, check the pin settings on the sort panel. See [Product Pins](/smart-collections/product-pins/).
+
+**Out-of-stock demotion moving products** — if out-of-stock demotion is enabled, zero-inventory products are moved to the end of the collection. If this is unexpected, toggle demotion off in the sort settings.
+
+:::caution
+Manual reordering in Shopify admin is overwritten on the next sync. Use [Product Pins](/smart-collections/product-pins/) in Smart Collections to hold specific products at fixed positions.
+:::
+
+---
+
+## A composed collection is empty or has unexpected products
+
+**Symptom:** A composed collection shows no products, or contains products you did not expect.
+
+<Steps>
+
+1. Open the collection detail page and check the **Sources** section — at least one source must be Active
+2. Review any health notices on the page (disabled sources, sources that have never synced, sources with errors)
+3. If all sources are active but the collection is empty, check whether the source collections themselves have any products — if a source matches nothing, it contributes nothing
+4. If you have local rule conditions, check that they are not filtering out everything — local rules filter the union of source products, so if no source products satisfy the local conditions, the result is empty
+
+</Steps>
+
+See [Composed Collections](/smart-collections/composed-collections/) for how evaluation works.
+
+---
+
+## Sync history shows errors
+
+**Symptom:** Sync history entries show Failed status with error messages.
+
+**"Collection no longer exists in Shopify"** — the Shopify collection was deleted. Follow the steps in [Collection shows an error after being deleted in Shopify admin](#collection-shows-an-error-after-being-deleted-in-shopify-admin).
+
+**Other errors** — click **Sync now** to retry. If failures continue across multiple attempts, contact support (see below).
+
+The **Sync** section in the main navigation shows activity across all your managed collections, which helps identify patterns such as one collection that repeatedly fails.
+
+---
+
+## The live product count does not match the collection after syncing
+
+**Symptom:** The count shown while editing rules differs from what ends up in the collection.
+
+This can happen if:
+- Products changed between when the count was displayed and when the sync ran
+- A sync was in progress when you viewed the rule builder
+
+Click **Sync now**, wait for it to complete, then check the **Sync history** entry — it shows the exact number of products added, removed, and reordered.
+
+---
+
+## Contacting support
+
+If the steps above do not resolve your issue:
+
+1. Open Smart Collections and click **Help** in the navigation
+2. Select **Contact support**
+
+Include your store URL, the affected collection name, any error message from the sync history, and a description of the expected vs actual behaviour.
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="Condition types, operators, and logic modes." />
+  <LinkCard title="Composed Collections" href="/smart-collections/composed-collections/" description="How source aggregation and cascade updates work." />
+  <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Sort keys, demotion, and sync triggers." />
+  <LinkCard title="FAQ" href="/smart-collections/faq/" description="Quick answers to common questions." />
+</CardGrid>

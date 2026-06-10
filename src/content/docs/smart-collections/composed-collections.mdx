@@ -1,0 +1,127 @@
+---
+title: Composed Collections
+description: Build a collection by aggregating products from multiple other Smart Collections–managed collections, with optional filtering on top.
+sidebar:
+  order: 5
+---
+
+import { Steps, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+A composed collection draws its products from one or more other managed collections rather than from a rule that runs directly against your full catalogue. This is useful when you want to combine the membership of several targeted collections into one place, or reuse an existing collection's rules without duplicating them.
+
+![Composed collection detail page showing two source collections and a local filter rule with the live product count](/screenshots/placeholder.png)
+
+## How composed evaluation works
+
+When a composed collection is evaluated, Smart Collections:
+
+<Steps>
+
+1. **Collect source products** — gathers all products currently in each active source collection
+2. **Union** — combines them into a single pool; duplicates from overlapping sources are removed automatically
+3. **Filter (if applicable)** — if you have added local rule conditions to the composed collection, filters the pool to only products that satisfy those conditions
+4. **Sort** — sorts the final set according to the collection's sort configuration
+
+</Steps>
+
+The composed collection then reflects exactly this set of products in Shopify.
+
+### Automatic cascade updates
+
+Whenever a source collection changes — because a product matched or stopped matching its rules — Smart Collections automatically re-evaluates all composed collections that use it as a source. You do not need to trigger this manually.
+
+:::tip
+Composed collections work well for aggregator collections. If you have separate brand or category collections and want a single "All Products" collection, compose it from all the individual collections. Any future changes to the source collections propagate automatically.
+:::
+
+## Managing sources
+
+### Add a source collection
+
+Only managed collections (those already owned by Smart Collections) can be added as sources.
+
+<Steps>
+
+1. Open the composed collection in Smart Collections
+2. In the **Sources** section, click **Add source**
+3. Select a managed collection from the candidate list
+4. Save — a sync runs immediately to incorporate the new source
+
+</Steps>
+
+Adding the first source to a rule-based collection converts it to a composed collection. See [Converting back to rule-based](#converting-back-to-rule-based) if you need to reverse this.
+
+:::note
+Collections that are part of a collection hierarchy cannot be used as composition sources, and vice versa. Hierarchy and composition are mutually exclusive on the same collection.
+:::
+
+### Remove a source collection
+
+<Steps>
+
+1. Open the composed collection in Smart Collections
+2. In the **Sources** section, find the source to remove and click **Remove**
+3. Confirm — a sync runs to update membership without that source's products
+
+</Steps>
+
+You cannot remove the last remaining source. To remove all sources, use **Convert to rule-based** instead.
+
+### Convert back to rule-based
+
+<Steps>
+
+1. Open the composed collection
+2. Click **Convert to rule-based** in the Sources section
+3. Confirm in the dialog
+
+</Steps>
+
+This removes all composition links. The collection is then evaluated using only its local rule conditions (if any). If no local conditions are configured, the collection will be empty after the next sync.
+
+:::caution
+Converting to rule-based removes all source links. This cannot be automatically undone. You can re-add sources afterwards if needed.
+:::
+
+## Adding local rule conditions
+
+You can add rule conditions directly to a composed collection. These filter the union of source products — only products that are in at least one source collection **and** satisfy the local conditions are included.
+
+Local rules follow the same format as [Rule-Based Collections](/smart-collections/rule-based-collections/). They cannot add products that are not already in a source; they can only narrow the set.
+
+:::tip
+A composed collection with no local conditions simply reflects the full union of its sources. Add local conditions only when you need to narrow that result.
+:::
+
+## Disabled sources
+
+If a source collection is disabled (paused), it stops contributing products. The composition link is preserved, so re-enabling the source restores its contribution on the next sync.
+
+A source that is released or deleted is automatically unlinked from all composed collections it fed.
+
+## Composition health
+
+The collection detail page shows any issues detected with source relationships:
+
+| Issue | Meaning |
+| --- | --- |
+| No active sources | All sources are currently disabled — the collection would be empty |
+| Source sync failed | A source collection encountered an error on its last sync |
+| Source never synced | A source was added but has not completed its first sync yet |
+
+Issues appear with severity indicators (issue, warning, or note). Raw diagnostic codes are not shown.
+
+![Composed collection detail page showing a source health warning](/screenshots/placeholder.png)
+
+## Pins and sort order
+
+Composed collections respect [Product Pins](/smart-collections/product-pins/) and [Sorting & Automation](/smart-collections/sorting-and-automation/) in the same way as rule-based collections. Pin positions survive re-sorts and sync cycles regardless of which source a product came from.
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="Define membership with direct product conditions." />
+  <LinkCard title="Product Pins" href="/smart-collections/product-pins/" description="Hold products at fixed positions in any collection." />
+  <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Control product ordering and automatic sync." />
+  <LinkCard title="Troubleshooting" href="/smart-collections/troubleshooting/" description="Diagnose empty or unexpected composed collections." />
+</CardGrid>
