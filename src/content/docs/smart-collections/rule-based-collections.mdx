@@ -43,7 +43,7 @@ As you add or change conditions, a live count shows how many products currently 
 | includes all of | Product has every one of the listed tags |
 
 :::tip
-Tag matching is case-sensitive and exact. `Sale` and `sale` are different tags. If products are not matching as expected, check for differences in capitalisation or whitespace.
+Tag matching is case-insensitive — `Sale` and `sale` match the same products. Whitespace does matter: a tag value with a leading or trailing space will not match a tag without one, so ensure your condition values are trimmed.
 :::
 
   </TabItem>
@@ -54,6 +54,8 @@ Tag matching is case-sensitive and exact. `Sale` and `sale` are different tags. 
 | equals | Product type exactly matches |
 | does not equal | Product type does not match |
 | is one of | Product type matches any value in the list |
+| contains | Product type includes the value as a substring |
+| does not contain | Product type does not include the value |
 
   </TabItem>
   <TabItem label="Vendor">
@@ -74,6 +76,7 @@ Tag matching is case-sensitive and exact. `Sale` and `sale` are different tags. 
 | contains | Title includes the value |
 | does not contain | Title does not include the value |
 | equals | Title exactly matches |
+| does not equal | Title does not exactly match |
 | starts with | Title begins with the value |
 
   </TabItem>

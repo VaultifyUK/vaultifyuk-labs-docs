@@ -48,7 +48,7 @@ Smart Collections applies sort rules in a fixed priority order. Higher layers ta
 | --- | --- |
 | 1 — Top pins | Placed at positions 1, 2, 3, … Nothing overrides these. |
 | 2 — Sort key | Applied to all un-pinned products. |
-| 3 — Out-of-stock demotion | Zero-inventory products moved to the end of the sorted pool. |
+| 3 — Out-of-stock demotion | Zero-inventory products moved to the end, preserving their relative sort order within the out-of-stock group. |
 | 4 — Bottom pins | Placed at the last positions. Nothing overrides these. |
 
 ## Automatic sync
@@ -66,7 +66,7 @@ Smart Collections keeps collections in sync automatically. You do not need to tr
 | Sort settings saved | The affected collection is re-sorted |
 | Collection modified in Shopify admin (sort mode changed, products edited manually) | The affected collection is re-evaluated to restore app ownership |
 
-Syncs triggered by product changes typically complete within seconds.
+Syncs triggered by product changes typically complete within a few seconds, though larger catalogues may take longer.
 
 ### Manual sync
 

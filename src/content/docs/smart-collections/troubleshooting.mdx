@@ -22,7 +22,7 @@ This page covers the most common issues merchants encounter and how to resolve t
 2. **Check the live product count** — open the rule builder and observe the live count. If it is lower than expected, your rules may be filtering out products you want to include.
 
 3. **Review each rule condition:**
-   - Tags must match exactly, including capitalisation and whitespace (`sale` ≠ `Sale`)
+   - Tag matching is case-insensitive (`sale` and `Sale` are treated the same). Whitespace does matter — a tag with a leading or trailing space will not match a trimmed condition value
    - If `Status = Active` is set, draft and archived products are excluded
    - "In stock" requires total inventory greater than zero across all variants
    - "Within last N days" is a rolling window — a product created 31 days ago does not match "within last 30 days"
@@ -57,7 +57,8 @@ This page covers the most common issues merchants encounter and how to resolve t
 1. Check the **Sync history** section on the collection detail page for recent activity
 2. If no recent sync is shown, click **Sync now** to trigger one immediately
 3. If the sync runs but produces no changes, this is normal — Smart Collections confirms the current state is already correct
-4. If the collection shows **Error** status, check the error message in the sync history and see [Sync history shows errors](#sync-history-shows-errors) below
+4. If a sync shows **Syncing** for more than 30 minutes, it will be automatically marked as failed — click **Sync now** to retry
+5. If the collection shows **Error** status, check the error message in the sync history and see [Sync history shows errors](#sync-history-shows-errors) below
 
 </Steps>
 

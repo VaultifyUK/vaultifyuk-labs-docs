@@ -24,14 +24,16 @@ No. Smart Collections only manages collections you explicitly connect to it, eit
 <details>
   <summary>Can I use Smart Collections alongside Shopify's built-in automated collections?</summary>
 
-Yes. Smart Collections–managed collections and native Shopify automated collections can coexist in the same store without conflict. You can migrate an existing Shopify automated collection to Smart Collections at any time by taking it over.
+Yes. Smart Collections–managed collections and native Shopify automated collections can coexist in the same store without conflict.
+
+However, you cannot take over a Shopify automated collection directly — Smart Collections will reject it because Shopify's own rule engine would conflict with its membership management. To migrate a Shopify automated collection, recreate it as a new Smart Collections collection with equivalent rules, then delete or repurpose the original.
 
 </details>
 
 <details>
   <summary>What permissions does Smart Collections use?</summary>
 
-Smart Collections requests the **Products** permission, which covers reading your product catalogue and managing collection membership and sort order. No theme access, no customer data, and no order data permissions are required at this stage.
+Smart Collections uses the **Products** permission (read and write) to manage your collection membership and sort order. It does not access theme files, customer records, or order data. GDPR compliance webhooks are registered as required by Shopify, but the app stores no customer personal data.
 
 </details>
 
@@ -141,7 +143,9 @@ Yes. All paid plans include a 14-day free trial. You are not charged until the t
 <details>
   <summary>What happens to my collections if I cancel?</summary>
 
-Your Shopify collections are not deleted. Smart Collections stops managing them, and the products and sort order that were in place at the time of cancellation remain. You regain full manual control of each collection in Shopify admin.
+Your Shopify collections are not deleted. Smart Collections stops managing them, and the products and sort order last applied by Smart Collections remain in Shopify. You regain full manual control of each collection in Shopify admin. Your Smart Collections configuration and sync history remain accessible while the app stays installed.
+
+If you also **uninstall** the app, all Smart Collections data — sync history, rules, sort settings — is permanently deleted. This cannot be undone.
 
 </details>
 

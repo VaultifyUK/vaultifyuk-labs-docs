@@ -439,8 +439,12 @@ article.card .icon {
   box-shadow: none;
 }
 
-/* Tables — normal markdown content */
+/* Tables — normal markdown content.
+   Starlight's @layer sets display:block on these tables (for mobile scroll). We
+   need an explicit display:table + width:100% in unlayered CSS to override it. */
 .sl-markdown-content table {
+  display: table;
+  width: 100%;
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--vault-border);
   border-radius: 0.9rem;
@@ -459,6 +463,7 @@ article.card .icon {
 .sl-markdown-content td,
 .sl-markdown-content th {
   border-color: var(--vault-border-soft);
+  padding-inline: 1rem;
 }
 
 /* Tables inside Starlight tab panels.
