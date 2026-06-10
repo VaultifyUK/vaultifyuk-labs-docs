@@ -1,0 +1,117 @@
+---
+title: Product Pins
+description: Pin specific products to fixed positions at the top or bottom of a collection, regardless of sort order or sync activity.
+sidebar:
+  order: 6
+---
+
+import { Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Product pins hold specific products at fixed positions in a collection. A pinned product is never moved by a sort or sync — it stays exactly where you placed it.
+
+There are two types:
+
+- **Top pins** — products held at positions 1, 2, 3, … at the start of the collection
+- **Bottom pins** — products held at the last positions, at the end of the collection
+
+![Pin management panel showing two top-pinned products and one bottom-pinned product with drag handles](/screenshots/placeholder.png)
+
+## How the sort stack works with pins
+
+When Smart Collections sorts a collection, it applies layers in this order:
+
+1. **Top pins** — placed at positions 1, 2, 3, … in the order you configured
+2. **Sort key + demotion** — applied to all un-pinned products
+3. **Bottom pins** — placed at the last positions in the order you configured
+
+Pins are absolute — no sort key, demotion rule, or sync can displace them. Out-of-stock demotion applies only to un-pinned products.
+
+**Example:**
+
+```text
+Position 1:   [TOP PIN] Featured New Launch
+Position 2:   [TOP PIN] Promoted Bundle
+Position 3:   Best seller (sorted)
+Position 4:   Next product (sorted)
+...
+Position N-1: [BOTTOM PIN] Discontinued Item
+Position N:   [BOTTOM PIN] Clearance Product
+```
+
+## Managing pins
+
+<Tabs>
+  <TabItem label="Add a top pin">
+
+<Steps>
+
+1. Open the collection in Smart Collections and go to the sort settings panel
+2. Under **Top pins**, click **Add product**
+3. Search for the product by name and select it
+4. Drag the pin to set its position relative to other top pins (if you have more than one)
+5. Click **Save sort**
+
+</Steps>
+
+The pin takes effect on the next sync. Click **Sync now** to apply it immediately.
+
+  </TabItem>
+  <TabItem label="Add a bottom pin">
+
+<Steps>
+
+1. Open the collection in Smart Collections and go to the sort settings panel
+2. Under **Bottom pins**, click **Add product**
+3. Search for the product by name and select it
+4. Drag the pin to set its position relative to other bottom pins
+5. Click **Save sort**
+
+</Steps>
+
+  </TabItem>
+  <TabItem label="Reorder pins">
+
+If you have multiple pins in either group, drag them within the list to change the order. Position numbers update to reflect the new arrangement.
+
+Click **Save sort** to apply the new order. The next sync (or a manual **Sync now**) applies the change to Shopify.
+
+  </TabItem>
+  <TabItem label="Remove a pin">
+
+<Steps>
+
+1. Open the sort settings panel
+2. Find the pin in **Top pins** or **Bottom pins**
+3. Click the remove icon next to it
+4. Click **Save sort**
+
+</Steps>
+
+After removal, the product re-enters the sorted pool on the next sync and is placed according to the sort configuration.
+
+  </TabItem>
+</Tabs>
+
+## Pins and rule evaluation
+
+A pin controls **position**, not **membership**. If a pinned product no longer matches the collection's rules, Smart Collections removes it from the collection on the next sync — the pin has no effect until the product re-enters.
+
+If the product later re-matches the rules, its pin is automatically restored.
+
+:::tip
+You can combine pins with any sort key. For example: pin your newest product at position 1, use "Best selling" for everything else. The best sellers fill positions 2 onwards; the pinned product stays at the top regardless of its sales history.
+:::
+
+## Pins and out-of-stock demotion
+
+Out-of-stock demotion pushes zero-inventory products to the end of the sorted pool. Pinned products are exempt — a top-pinned product stays at its pinned position even when out of stock.
+
+To allow a pinned product to be demoted when out of stock, remove its pin first.
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Sort keys, out-of-stock demotion, and the full sort stack." />
+  <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="How membership is determined before pins apply." />
+  <LinkCard title="FAQ" href="/smart-collections/faq/" description="Common questions about pin behaviour and limits." />
+</CardGrid>

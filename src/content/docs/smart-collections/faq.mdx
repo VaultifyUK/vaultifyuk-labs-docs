@@ -1,0 +1,168 @@
+---
+title: FAQ
+description: Frequently asked questions about Smart Collections — how it works, what it affects, and what to expect.
+sidebar:
+  order: 10
+---
+
+## General
+
+<details open>
+  <summary>Does Smart Collections work with all Shopify themes?</summary>
+
+Yes. Smart Collections manages collection membership and sort order through the Shopify API. It does not modify your theme files or require any theme customisation. Your storefront displays whatever products Shopify has in each collection — Smart Collections controls what those are.
+
+</details>
+
+<details>
+  <summary>Will Smart Collections affect my collections that I have not connected to it?</summary>
+
+No. Smart Collections only manages collections you explicitly connect to it, either by creating a new collection through the app or by taking over an existing one. All other Shopify collections — automated or manual — are untouched.
+
+</details>
+
+<details>
+  <summary>Can I use Smart Collections alongside Shopify's built-in automated collections?</summary>
+
+Yes. Smart Collections–managed collections and native Shopify automated collections can coexist in the same store without conflict. You can migrate an existing Shopify automated collection to Smart Collections at any time by taking it over.
+
+</details>
+
+<details>
+  <summary>What permissions does Smart Collections use?</summary>
+
+Smart Collections requests the **Products** permission, which covers reading your product catalogue and managing collection membership and sort order. No theme access, no customer data, and no order data permissions are required at this stage.
+
+</details>
+
+<details>
+  <summary>Who can manage collections?</summary>
+
+Any Shopify admin user on your store can create collections, take over existing collections, edit rules and sort settings, trigger manual syncs, and edit collection content fields.
+
+Only the **store owner** can release a collection or delete a collection through Smart Collections.
+
+</details>
+
+## Rules & Membership
+
+<details>
+  <summary>How quickly does a collection update after a product change?</summary>
+
+Typically within a few seconds. When a product is created, updated, or deleted in your Shopify store, Smart Collections receives a webhook and re-evaluates all affected collections automatically. For stores with large catalogues, evaluation may take a little longer.
+
+</details>
+
+<details>
+  <summary>What happens to a product if it stops matching the collection rules?</summary>
+
+It is removed from the collection on the next sync. The product itself is not affected in any way — only its membership in that specific collection changes. It will be re-added automatically if it later changes to match the rules again.
+
+</details>
+
+<details>
+  <summary>Can I force a product to always be included, even if it does not match the rules?</summary>
+
+Per-product overrides are a planned feature. In the current version, all products are included or excluded based on rule evaluation. Pinning a product to the top or bottom only controls position for products that are already members.
+
+</details>
+
+<details>
+  <summary>Why does my live product count differ from what ends up in the collection?</summary>
+
+The live count reflects your catalogue at that moment. If the count changes before sync runs, it may be because product attributes changed in the meantime. Smart Collections always uses the current state of each product at sync time.
+
+</details>
+
+<details>
+  <summary>Does Smart Collections evaluate draft products?</summary>
+
+Draft products are included in evaluation and can appear in a collection if your rules do not exclude them. To exclude draft products, add a condition `Status = Active` to your rules.
+
+</details>
+
+<details>
+  <summary>What is the difference between a rule-based collection and a composed collection?</summary>
+
+A **rule-based collection** evaluates your full product catalogue against conditions you define.
+
+A **composed collection** takes its membership from other Smart Collections–managed collections. You can optionally add local rule conditions to filter that inherited product set further.
+
+See [Rule-Based Collections](/smart-collections/rule-based-collections/) and [Composed Collections](/smart-collections/composed-collections/) for details.
+
+</details>
+
+## Sorting & Pins
+
+<details>
+  <summary>Can I pin products and still use automated sorting?</summary>
+
+Yes. Top-pinned products are placed first, bottom-pinned products are placed last, and the automated sort applies to everything in between. See [Product Pins](/smart-collections/product-pins/).
+
+</details>
+
+<details>
+  <summary>Does Smart Collections override the sort order I set in Shopify admin?</summary>
+
+Yes. When a collection is managed by Smart Collections, it sets Shopify's sort mode to Manual and controls all product positions. If you change the sort mode or reorder products in Shopify admin, Smart Collections will restore its configuration on the next sync.
+
+</details>
+
+<details>
+  <summary>What does out-of-stock demotion do exactly?</summary>
+
+When enabled, any product with zero total inventory is moved to the end of the collection, after all in-stock products are sorted. Pinned products are exempt and stay in their pinned positions regardless of stock level.
+
+</details>
+
+<details>
+  <summary>Will pinned products be removed if they stop matching the rules?</summary>
+
+Yes. A pin controls position, not membership. If a pinned product no longer satisfies the collection's rules, Smart Collections removes it from the collection. If the product later re-matches the rules, it re-enters the collection and its pin is restored.
+
+</details>
+
+## Billing & Plans
+
+<details>
+  <summary>Is there a free tier?</summary>
+
+Yes. The Free plan allows up to 2 managed collections with no time limit and no payment required.
+
+</details>
+
+<details>
+  <summary>Is there a free trial for paid plans?</summary>
+
+Yes. All paid plans include a 14-day free trial. You are not charged until the trial ends.
+
+</details>
+
+<details>
+  <summary>What happens to my collections if I cancel?</summary>
+
+Your Shopify collections are not deleted. Smart Collections stops managing them, and the products and sort order that were in place at the time of cancellation remain. You regain full manual control of each collection in Shopify admin.
+
+</details>
+
+<details>
+  <summary>What happens when I reach my plan's collection limit?</summary>
+
+Smart Collections continues to sync all collections currently under management. You will see a prompt to upgrade when you try to add an additional collection. Existing collections are never paused or disrupted.
+
+</details>
+
+<details>
+  <summary>Can I downgrade my plan?</summary>
+
+Yes. If you downgrade to a plan with a lower collection limit, your existing managed collections continue to sync. You will not be able to add new collections until your active count is within the new plan's limit.
+
+</details>
+
+## Related topics
+
+- [Getting Started](/smart-collections/getting-started/)
+- [Rule-Based Collections](/smart-collections/rule-based-collections/)
+- [Composed Collections](/smart-collections/composed-collections/)
+- [Billing & Plans](/smart-collections/billing-and-plans/)
+- [Troubleshooting](/smart-collections/troubleshooting/)

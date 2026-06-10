@@ -1,0 +1,131 @@
+---
+title: Billing & Plans
+description: Smart Collections pricing plans, feature limits, trial period, and billing information.
+sidebar:
+  order: 8
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Smart Collections is billed through Shopify on a monthly or annual subscription. All pricing is in USD. All paid plans include a **14-day free trial**.
+
+## Plans
+
+<CardGrid>
+  <Card title="Free — $0/month" icon="open-book">
+
+Up to **2 managed collections**.
+
+Includes all core features: rule-based collections, composed collections, product pins, out-of-stock demotion, real-time sync, and sync history.
+
+No trial needed — free forever.
+
+  </Card>
+  <Card title="Starter — $19/month" icon="rocket">
+
+Up to **5 managed collections**.
+
+All Free features. Annual billing available at $190/year (2 months free).
+
+14-day free trial.
+
+  </Card>
+  <Card title="Growth — $49/month" icon="star">
+
+Up to **25 managed collections**.
+
+All Starter features, plus signal-based sorting, weighted composite scores, and collection hierarchy when available.
+
+Annual billing at $490/year. 14-day free trial.
+
+  </Card>
+  <Card title="Pro — $99/month" icon="heart">
+
+Up to **75 managed collections**.
+
+All Growth features, plus priority support.
+
+Annual billing at $990/year. 14-day free trial.
+
+  </Card>
+  <Card title="Enterprise — $249/month" icon="setting">
+
+**Unlimited managed collections**.
+
+All features including multi-store management and white-glove onboarding.
+
+Annual billing available. 14-day free trial.
+
+  </Card>
+</CardGrid>
+
+:::tip
+**Annual billing** saves approximately 2 months compared to monthly (around 17% discount). You can switch between monthly and annual at any time.
+:::
+
+## Feature availability by plan
+
+| Feature | Free | Starter | Growth | Pro | Enterprise |
+| --- | --- | --- | --- | --- | --- |
+| Rule-based collections | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Composed collections | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Product pins (top & bottom) | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Out-of-stock demotion | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Real-time webhook sync | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Manual sync trigger | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Sync history and dashboard | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Priority support | — | — | — | ✓ | ✓ |
+| White-glove onboarding | — | — | — | — | ✓ |
+| Multi-store management | — | — | — | — | ✓ |
+
+Signal-based sorting, weighted composite scores, and collection hierarchy features are on Growth and above (coming in a future update).
+
+## Free trial
+
+All paid plans include a 14-day free trial with full access to the plan's features. No charge is applied until the trial ends.
+
+You can cancel before the trial ends with no cost.
+
+## What counts as a managed collection
+
+A managed collection is any Shopify collection connected to Smart Collections — either created through the app or taken over from Shopify. Collections you release or delete no longer count toward your limit.
+
+## Reaching your collection limit
+
+When you reach the limit for your plan, Smart Collections continues to sync all existing managed collections without interruption. You will see a prompt to upgrade when you try to connect an additional collection.
+
+:::note
+Smart Collections uses soft limits. Existing collections are never paused or stopped when you reach your plan limit — only adding new collections requires an upgrade.
+:::
+
+## Billing through Shopify
+
+Billing is handled entirely by Shopify and charged through your existing Shopify billing cycle. No separate payment method is required.
+
+To manage or cancel your subscription:
+
+1. Go to **Shopify Admin → Apps**
+2. Find **Smart Collections** and click **Manage subscription**
+
+You can also manage billing from within Smart Collections under **Settings → Billing**.
+
+## Changing plans
+
+You can upgrade or downgrade at any time. Upgrades take effect immediately. If you downgrade to a lower collection limit, existing collections continue to sync — you will need to reduce your active count before adding new ones.
+
+## Cancellation
+
+You can cancel at any time. Your subscription remains active until the end of the current billing period. After cancellation:
+
+- Smart Collections stops managing your collections
+- Your Shopify collections are not deleted
+- The products and sort order last set by Smart Collections remain in place
+- Sync history is preserved until it expires (90 days)
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Getting Started" href="/smart-collections/getting-started/" description="Install the app and create your first collection." />
+  <LinkCard title="Creating & Taking Over Collections" href="/smart-collections/creating-and-taking-over-collections/" description="How to connect collections to Smart Collections." />
+  <LinkCard title="FAQ" href="/smart-collections/faq/" description="Common billing and plan questions." />
+</CardGrid>
