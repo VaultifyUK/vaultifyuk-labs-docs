@@ -122,7 +122,7 @@ Per-product overrides are a planned feature. In the current version, all product
 <details>
   <summary>Why does my live product count differ from what ends up in the collection?</summary>
 
-The live count reflects your catalogue at that moment. If the count changes before sync runs, it may be because product attributes changed in the meantime. Smart Collections always uses the current state of each product at sync time.
+The live count is backed by a cached snapshot of your catalogue that refreshes every 5 minutes, so it can be slightly behind your live store. The actual sync always uses the current state of each product at the moment it runs — so if products changed between when you viewed the count and when the sync ran, the final membership may differ.
 
 </details>
 
@@ -141,6 +141,35 @@ A **rule-based collection** evaluates your full product catalogue against condit
 A **composed collection** takes its membership from other Smart Collections–managed collections. You can optionally add local rule conditions to filter that inherited product set further.
 
 See [Rule-Based Collections](/smart-collections/rule-based-collections/) and [Composed Collections](/smart-collections/composed-collections/) for details.
+
+</details>
+
+## Sync & Monitoring
+
+<details>
+  <summary>Where can I see all my sync activity?</summary>
+
+Open the **Sync Dashboard** via **Sync** in the main navigation. It shows all syncs currently in progress across every collection (Active Syncs), plus a searchable, filterable history of completed and failed syncs (Sync History).
+
+See [Sync Dashboard](/smart-collections/sync-dashboard/) for full details.
+
+</details>
+
+<details>
+  <summary>My first sync after taking over a collection shows 0 products added and 0 removed. Is something wrong?</summary>
+
+No — this is the expected result when you take over a collection in **Adopt mode**. It confirms that the first-activation guarantee held: Smart Collections preserved your collection exactly as it existed before takeover. No products were added or removed.
+
+See [Creating & Taking Over Collections — The first activation guarantee](/smart-collections/creating-and-taking-over-collections/#the-first-activation-guarantee) for a full explanation.
+
+</details>
+
+<details>
+  <summary>A sync is showing as failed. What should I do?</summary>
+
+Open the [Sync Dashboard](/smart-collections/sync-dashboard/) and find the failed run in Sync History. Click the row to expand it — the error message and step detail are shown inline. Click **View collection →** to navigate directly to the collection and trigger a manual retry via **Sync now**.
+
+If failures repeat across multiple retries, see [Troubleshooting](/smart-collections/troubleshooting/) for common failure patterns.
 
 </details>
 
@@ -218,5 +247,6 @@ Yes. If you downgrade to a plan with a lower collection limit, your existing man
 - [Getting Started](/smart-collections/getting-started/)
 - [Rule-Based Collections](/smart-collections/rule-based-collections/)
 - [Composed Collections](/smart-collections/composed-collections/)
+- [Sync Dashboard](/smart-collections/sync-dashboard/)
 - [Billing & Plans](/smart-collections/billing-and-plans/)
 - [Troubleshooting](/smart-collections/troubleshooting/)
