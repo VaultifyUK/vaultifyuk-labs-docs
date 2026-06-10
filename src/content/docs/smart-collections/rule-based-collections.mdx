@@ -1,6 +1,6 @@
 ---
 title: Rule-Based Collections
-description: Define collection membership using product conditions — tags, type, vendor, title, price, inventory, status, and creation date.
+description: Define collection membership using product conditions — tags, type, vendor, title, price, inventory, status, and creation date. Supports nested AND/OR groups.
 sidebar:
   order: 4
 ---
@@ -22,13 +22,36 @@ At the top of the rule builder, select one of two modes:
 - **All conditions must match (AND)** — a product is included only if it satisfies every condition
 - **Any condition must match (OR)** — a product is included if it satisfies at least one condition
 
-:::note
-Nested condition groups — combining AND and OR in the same rule — are not yet available in the rule builder UI. Each rule currently operates with a single root-level AND or OR. Nested logic is coming in a future update.
+### Nested AND/OR groups
+
+The rule builder supports nested condition groups, letting you combine AND and OR logic in the same rule.
+
+**Example:** "Products tagged 'sale' under £100, OR products tagged 'clearance' with fewer than 5 in stock"
+
+```text
+(Tag includes "sale"  AND  Price less than 100)
+OR
+(Tag includes "clearance"  AND  Inventory less than 5)
+```
+
+To create a group:
+
+- Click **Add group** to add a new nested AND/OR group below your current conditions
+- Or click **Wrap in group** on an existing condition to convert it into the first condition of a new nested group
+
+Each group has its own AND/OR toggle. Groups can be nested inside other groups to express complex logic.
+
+![Rule builder showing two nested groups with AND/OR toggles at both the root level and group level](/screenshots/placeholder.png)
+
+:::tip
+Start with your broadest filter at the root level, then use nested groups to add more specific criteria. For most merchandising rules, one or two levels of nesting is sufficient.
 :::
 
 ### Live product count
 
 As you add or change conditions, a live count shows how many products currently match your rules. Use this to confirm your rules are producing the expected result before saving.
+
+The count is backed by a cached snapshot of your catalogue (refreshed every 5 minutes), so it may occasionally be a few minutes behind your live store. If the count is temporarily unavailable — for example, if the catalogue is being refreshed — you will see a "Count unavailable" message. This does not affect the actual sync, which always uses the current live state of your products.
 
 ## Available conditions
 
@@ -148,14 +171,12 @@ Inventory = In stock
 
 ### Sale products under £100, or clearance with low stock
 
-Use **Any condition must match (OR)** and add two conditions:
+Use nested groups with **Any condition must match (OR)** at the root:
 
 ```text
-Tag includes "sale" AND Price less than 100
-```
-
-```text
-Tag includes "clearance" AND Inventory less than 5
+(Tag includes "sale"  AND  Price less than 100)
+OR
+(Tag includes "clearance"  AND  Inventory less than 5)
 ```
 
 ### New arrivals (last 30 days)
@@ -165,6 +186,14 @@ Created date = within last 30 days
 AND
 Status = Active
 ```
+
+## Baseline condition on taken-over collections
+
+If you took over a collection using **Adopt mode**, your rule builder will show an **"Original collection products"** item at the top of the rules panel. This is the baseline condition — it matches every product that was in the collection before Smart Collections took over.
+
+This item is read-only and cannot be edited or repositioned from the rule builder. You can remove it via **Danger Zone → Remove baseline** when you are ready for your rules to fully control membership.
+
+See [Creating & Taking Over Collections](/smart-collections/creating-and-taking-over-collections/) for the full explanation of how Adopt mode and baseline import work.
 
 ## Saving and syncing
 
@@ -181,6 +210,7 @@ If a product changes to match your rules, it is added automatically on the next 
 ## Related topics
 
 <CardGrid>
+  <LinkCard title="Creating & Taking Over Collections" href="/smart-collections/creating-and-taking-over-collections/" description="Adopt mode, baseline import, and the first-activation guarantee." />
   <LinkCard title="Composed Collections" href="/smart-collections/composed-collections/" description="Build collections from other collections instead of direct rules." />
   <LinkCard title="Product Pins" href="/smart-collections/product-pins/" description="Hold specific products at fixed positions regardless of rules." />
   <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Control how matched products are ordered." />

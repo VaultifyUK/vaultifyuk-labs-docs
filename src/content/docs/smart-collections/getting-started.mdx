@@ -40,12 +40,28 @@ This guide walks you through installing Smart Collections and setting up your fi
 
    Click **New Collection** to begin. You have two options:
 
-   - **Create a new collection** — Smart Collections creates a new Shopify collection and manages it from the start
-   - **Take over an existing collection** — Smart Collections takes over a collection already in your store; existing products are preserved while you configure rules
-
    ![New collection screen showing the option to create new or take over an existing collection](/screenshots/placeholder.png)
 
-   See [Creating & Taking Over Collections](/smart-collections/creating-and-taking-over-collections/) for full details on both flows.
+   **Create a new collection**
+
+   Smart Collections creates a new Shopify collection and manages it from the start. After saving your rules, it syncs immediately.
+
+   **Take over an existing collection**
+
+   Smart Collections takes over a manual collection already in your store. You choose how:
+
+   | Mode | What it does |
+   | --- | --- |
+   | **Adopt** (recommended) | Existing products are preserved. The first sync makes **zero changes** to your storefront. Configure rules at your own pace. |
+   | **Enforce** | Rules apply immediately. Products that do not match are removed on the first sync. |
+
+   If you choose **Adopt**, a **baseline import** runs automatically after setup. The collection cannot activate until the import completes — a progress indicator on the collection detail page shows its status. For most collections this finishes in seconds; large collections may take a minute or two. The collection activates itself once the import is done.
+
+   :::tip
+   If you are taking over a live collection your customers are actively browsing, use Adopt mode. You can always switch to full rule-based control later by removing the baseline.
+   :::
+
+   See [Creating & Taking Over Collections](/smart-collections/creating-and-taking-over-collections/) for the complete walkthrough of both flows.
 
 4. **Configure membership rules**
 
@@ -53,7 +69,7 @@ This guide walks you through installing Smart Collections and setting up your fi
 
    ![Rule builder showing example conditions for tags and product type with a live product count](/screenshots/placeholder.png)
 
-   A live count updates as you add conditions, showing how many products currently match. When you are satisfied, click **Save**.
+   A live count updates as you add conditions, showing how many products currently match. The count reflects a cached snapshot of your catalogue (refreshed every 5 minutes) — useful for checking your rules before saving, but the actual sync always uses live product data. When you are satisfied, click **Save**.
 
    See [Rule-Based Collections](/smart-collections/rule-based-collections/) for the full list of available conditions.
 
@@ -76,10 +92,13 @@ This guide walks you through installing Smart Collections and setting up your fi
 
 Once your collection is saved, Smart Collections keeps it in sync automatically. Product creates, updates, and deletes in your store trigger re-evaluation automatically. You can also trigger a manual sync at any time from the collection detail page.
 
+To see what is happening across all your collections — active syncs in progress, recent history, and failure details — open the **Sync Dashboard** via **Sync** in the main navigation. This is the primary place to check after activation and to diagnose any issues.
+
 ## Next steps
 
 <CardGrid>
-  <LinkCard title="Creating & Taking Over Collections" href="/smart-collections/creating-and-taking-over-collections/" description="Full walkthrough of both collection setup flows." />
+  <LinkCard title="Creating & Taking Over Collections" href="/smart-collections/creating-and-taking-over-collections/" description="Full walkthrough of both collection setup flows including Adopt mode and baseline import." />
+  <LinkCard title="Sync Dashboard" href="/smart-collections/sync-dashboard/" description="Monitor active syncs, browse history, and investigate failures across all collections." />
   <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="Complete reference for all condition types and operators." />
   <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Sort keys, demotion rules, and automatic sync triggers." />
   <LinkCard title="Billing & Plans" href="/smart-collections/billing-and-plans/" description="Plans, limits, free trial, and billing through Shopify." />

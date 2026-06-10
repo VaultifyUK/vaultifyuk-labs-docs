@@ -1,0 +1,106 @@
+---
+title: Sync Dashboard
+description: Monitor all sync activity across your managed collections — active syncs with live progress, a searchable history of completed and failed runs, and diagnostic detail for any failure.
+sidebar:
+  order: 8
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+The Sync Dashboard gives you a shop-wide view of all sync activity across every managed collection. Use it to answer questions like:
+
+- Is automation running right now?
+- What ran in the last hour?
+- Why did that sync fail?
+- Which collections are syncing most frequently?
+
+Access it via **Sync** in the main navigation.
+
+![Sync Dashboard showing an Active Syncs section with one running sync and a Sync History section with a list of recent completed and failed syncs](/screenshots/placeholder.png)
+
+## Active Syncs
+
+The top section of the Sync Dashboard shows every sync currently in progress across all your collections. If nothing is running, it shows "No active syncs — everything is up to date."
+
+For each active sync:
+
+| Column | What it shows |
+| --- | --- |
+| Collection | Collection name, with a link to the collection detail page |
+| Current step | Whether the sync is currently evaluating membership or sorting products |
+| Live progress | Products scanned so far (e.g. "2,750 products scanned") or sort progress |
+| Elapsed | How long the sync has been running, updated every second |
+
+The Active section refreshes automatically every 2 seconds while syncs are in progress. When a sync completes, it disappears from Active and appears immediately in Sync History.
+
+## Sync History
+
+The History section shows all completed and failed syncs, newest first. The default view covers the last 7 days.
+
+For each history entry:
+
+| Column | What it shows |
+| --- | --- |
+| Collection | Collection name, with a link to the collection detail page |
+| Triggered by | What caused the sync — see [Trigger types](#trigger-types) below |
+| Current step | Where the sync ended: "Completed", "Failed at evaluation", or "Failed at sort" |
+| Status | Success (green) or Failed (red) |
+| Started | Relative time (e.g. "3 minutes ago") |
+| Duration | How long the sync took (e.g. "12s", "2m 35s") |
+| Outcome | For successful syncs: products added, removed, reordered. For failures: a short error snippet. |
+
+### Filtering and searching
+
+Use the filters at the top of the History section to narrow the list:
+
+| Filter | Options |
+| --- | --- |
+| Status | All / Failed / Done |
+| Triggered by | All / Manual / Product updated / Product deleted / Configuration saved / Cascade sync / Install sync / Scheduled sync |
+| Date range | Last 24h / Last 7d / Last 30d / All time |
+
+The search box searches collection name, collection ID, sync ID, and error message text simultaneously.
+
+### Expanding a sync entry
+
+Click a row in Sync History to expand it and see step-level detail:
+
+- **Evaluation step** — how many products were scanned and how many changes were made
+- **Sort step** — how many products were reordered
+- **Changes** — the full list of products added, removed, and reordered, with before/after positions for sort changes
+
+For large sort operations, reorder details are capped at 50 entries with a "…and N more" indicator.
+
+A **View collection →** link at the top of the expanded row takes you directly to the collection detail page.
+
+## Trigger types
+
+| Label | What caused it |
+| --- | --- |
+| Manual sync | You clicked Sync now on the collection detail page |
+| Product updated | A product's attributes changed in Shopify |
+| Product deleted | A product was deleted from Shopify |
+| Configuration saved | You saved a rule or sort change |
+| Cascade sync | A source collection changed, triggering re-evaluation of this composed collection |
+| Install sync | The initial sync that runs when the app is first installed |
+| Scheduled sync | A sync triggered by a schedule (future feature) |
+
+## Diagnostic workflow
+
+The Sync Dashboard is the primary tool for investigating sync problems. A typical diagnostic flow:
+
+1. Open the Sync Dashboard
+2. If the affected collection is actively syncing, check the **Active Syncs** section for live progress
+3. In **Sync History**, filter by the affected collection name or search by collection name
+4. Find the failed sync entry and click it to expand step detail
+5. Check the **Outcome** column and the expanded error message for the cause
+6. Follow the error message guidance, or see [Troubleshooting](/smart-collections/troubleshooting/) for common failure patterns
+7. Click **View collection →** inside the expanded row to navigate directly to the collection and trigger a manual retry
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Sync triggers, sort keys, and automatic sync behaviour." />
+  <LinkCard title="Troubleshooting" href="/smart-collections/troubleshooting/" description="Diagnose sync errors and unexpected membership." />
+  <LinkCard title="Creating & Taking Over Collections" href="/smart-collections/creating-and-taking-over-collections/" description="Understand the collection setup and baseline import flow." />
+</CardGrid>

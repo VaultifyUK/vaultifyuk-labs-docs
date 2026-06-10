@@ -16,6 +16,26 @@ There are two types:
 
 ![Pin management panel showing two top-pinned products and one bottom-pinned product with drag handles](/screenshots/placeholder.png)
 
+## Pins require membership
+
+:::caution
+**A pin controls position, not membership.**
+
+A product must already be a member of the collection — matched by your rules or included via the baseline — before a pin takes effect. Pinning a product that is not in the collection has no effect.
+:::
+
+If you pin a product that is currently not in the collection:
+
+- The pin is saved but shows as **inactive** in the pin list
+- The product remains absent from the collection
+- If the product later matches your rules and enters the collection, the pin activates automatically and places it at its configured position
+
+This is by design: pins express "where should this product appear", not "force this product in". The rule engine and baseline determine membership; pins determine position within that membership.
+
+:::tip
+If a product you want to pin is not matching your rules, first check the live product count in the rule builder with that product in mind. You may need to adjust your conditions, or the product may need a tag or attribute change in Shopify.
+:::
+
 ## How the sort stack works with pins
 
 When Smart Collections sorts a collection, it applies layers in this order:
@@ -92,21 +112,31 @@ After removal, the product re-enters the sorted pool on the next sync and is pla
   </TabItem>
 </Tabs>
 
-## Pins and rule evaluation
+## Inactive pins
 
-A pin controls **position**, not **membership**. If a pinned product no longer matches the collection's rules, Smart Collections removes it from the collection on the next sync — the pin has no effect until the product re-enters.
+A pin is **inactive** when its product is not currently a member of the collection. Inactive pins:
 
-If the product later re-matches the rules, its pin is automatically restored.
+- Are displayed with a visual indicator in the pin list so you can identify them
+- Do not affect the collection's sort order
+- Activate automatically if the product later enters the collection
 
-:::tip
-You can combine pins with any sort key. For example: pin your newest product at position 1, use "Best selling" for everything else. The best sellers fill positions 2 onwards; the pinned product stays at the top regardless of its sales history.
-:::
+You can leave inactive pins in place or remove them — whichever suits your workflow.
 
 ## Pins and out-of-stock demotion
 
 Out-of-stock demotion pushes zero-inventory products to the end of the sorted pool. Pinned products are exempt — a top-pinned product stays at its pinned position even when out of stock.
 
 To allow a pinned product to be demoted when out of stock, remove its pin first.
+
+## Pins and rule evaluation
+
+If a pinned product no longer matches the collection's rules, Smart Collections removes it from the collection on the next sync — the pin has no effect while the product is not a member.
+
+If the product later re-matches the rules, it re-enters the collection and its pin is restored automatically.
+
+:::tip
+You can combine pins with any sort key. For example: pin your newest product at position 1, use "Best selling" for everything else. The best sellers fill positions 2 onwards; the pinned product stays at the top regardless of its sales history.
+:::
 
 ## Related topics
 
