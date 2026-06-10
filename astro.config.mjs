@@ -18,7 +18,7 @@ export default defineConfig({
 
   integrations: [
       starlight({
-          title: 'VaultifyUK Labs',
+          title: 'VaultifyUK Labs Documentation',
           description: 'Documentation and knowledge base for VaultifyUK Labs products — Shopify tools, automation, and SaaS.',
           editLink: {
               baseUrl: 'https://github.com/VaultifyUK/vaultifyuk-labs-docs/edit/main/'

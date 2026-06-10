@@ -5,7 +5,9 @@ const year = new Date().getFullYear();
 <div class="site-footer">
 	<div class="site-footer__inner">
 		<div class="site-footer__brand">
-			<span class="site-footer__name">VaultifyUK Labs</span>
+			<span class="site-footer__name">
+				Vaultify<span class="site-footer__name--gold">UK</span> Labs
+			</span>
 			<p class="site-footer__desc">Documentation for VaultifyUK tools and automation products.</p>
 		</div>
 
@@ -29,7 +31,7 @@ const year = new Date().getFullYear();
 	</div>
 
 	<div class="site-footer__bottom">
-		<span>&copy; {year} VaultifyUK Ltd. All rights reserved.</span>
+		<span>&copy; {year} VaultifyUK Limited. All rights reserved.</span>
 	</div>
 </div>
 
@@ -84,6 +86,14 @@ const year = new Date().getFullYear();
 	}
 
 	.site-footer__name {
+		font-size: var(--sl-text-sm);
+		font-weight: 700;
+		color: var(--vault-muted);
+		letter-spacing: 0.02em;
+	}
+
+	
+	.site-footer__name--gold {
 		font-size: var(--sl-text-sm);
 		font-weight: 700;
 		color: var(--vault-gold);
