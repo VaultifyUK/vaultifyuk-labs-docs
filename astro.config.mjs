@@ -109,6 +109,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
                       },
                       { label: 'Product Pins', slug: 'smart-collections/product-pins' },
                       { label: 'Sorting & Automation', slug: 'smart-collections/sorting-and-automation' },
+                      { label: 'Sync Dashboard', slug: 'smart-collections/sync-dashboard' },
                       { label: 'Billing & Plans', slug: 'smart-collections/billing-and-plans' },
                       { label: 'Troubleshooting', slug: 'smart-collections/troubleshooting' },
                       { label: 'FAQ', slug: 'smart-collections/faq' },
