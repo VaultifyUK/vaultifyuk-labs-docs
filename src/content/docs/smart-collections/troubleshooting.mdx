@@ -2,7 +2,7 @@
 title: Troubleshooting
 description: Diagnose and resolve common issues with Smart Collections — products missing, unexpected membership, sync errors, and sort order problems.
 sidebar:
-  order: 9
+  order: 10
 ---
 
 import { Steps, LinkCard, CardGrid } from '@astrojs/starlight/components';
@@ -125,6 +125,42 @@ See [Composed Collections](/smart-collections/composed-collections/) for how eva
 **Other errors** — click **Sync now** to retry. If failures continue across multiple attempts, contact support (see below).
 
 The **Sync** section in the main navigation shows activity across all your managed collections, which helps identify patterns such as one collection that repeatedly fails.
+
+---
+
+## Baseline import is stuck or failed
+
+**Symptom:** You took over an existing collection, but the collection shows a "Baseline import pending" or "Baseline import failed" status and cannot be activated.
+
+A baseline import must complete before the collection can be activated for the first time. This is a safety mechanism — it ensures the first sync produces no changes to your storefront.
+
+**If the import is stuck in PENDING:**
+
+<Steps>
+
+1. Open the collection detail page — it will show baseline import progress or status
+2. If no progress has been made for more than 10 minutes, click **Retry baseline import** to re-trigger it
+3. If the button is not visible, click **Sync now** — for collections awaiting baseline completion this triggers a retry
+
+</Steps>
+
+Baseline imports are idempotent. Retrying is safe and will not duplicate or lose any data.
+
+**If the import shows FAILED:**
+
+<Steps>
+
+1. Open the collection detail page and check the error message shown below the baseline status
+2. Click **Retry baseline import**
+3. If the retry fails again, contact support with the collection name and the error message text
+
+</Steps>
+
+:::note
+While a baseline import is pending or failed, the collection is in read-only mode — rules and sort settings can be configured but the collection will not activate until the import completes.
+:::
+
+See [Creating & Taking Over Collections](/smart-collections/creating-and-taking-over-collections/) for a full explanation of the baseline import process.
 
 ---
 

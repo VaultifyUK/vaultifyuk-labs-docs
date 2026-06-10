@@ -2,7 +2,7 @@
 title: FAQ
 description: Frequently asked questions about Smart Collections — how it works, what it affects, and what to expect.
 sidebar:
-  order: 10
+  order: 11
 ---
 
 ## General
@@ -46,6 +46,47 @@ Only the **store owner** can release a collection or delete a collection through
 
 </details>
 
+## Collection Takeover & Baseline
+
+<details open>
+  <summary>What happens to my existing products when I take over a collection?</summary>
+
+It depends on the mode you choose:
+
+- **Adopt mode** (recommended) — Smart Collections takes a snapshot of the current products and saves them as a "baseline". The first activation makes zero changes to your storefront. Your existing products remain in the collection until your rules would naturally remove them. You can evolve your rules gradually over time.
+- **Enforce mode** — Smart Collections evaluates your rules immediately. Products that do not match are removed on the first sync.
+
+See [Creating & Taking Over Collections](/smart-collections/creating-and-taking-over-collections/) for the full explanation and a comparison of both modes.
+
+</details>
+
+<details>
+  <summary>What is the baseline and why does it exist?</summary>
+
+The baseline is a record of every product that was in your collection at the moment Smart Collections took it over in Adopt mode. It is used to guarantee that the first activation makes no changes to your storefront.
+
+After takeover, the baseline products appear in your rule builder as a read-only **"Original collection products"** condition. They are treated as rule members until you remove the baseline.
+
+</details>
+
+<details>
+  <summary>Can I remove the baseline once I have set up my rules?</summary>
+
+Yes. When you are ready for your rules to fully control membership — and you no longer want the original products held in the collection automatically — go to **Danger Zone → Remove baseline** on the collection detail page.
+
+This does not delete the underlying snapshot. If you later want to restore it, use **Restore baseline** — the snapshot is always preserved.
+
+</details>
+
+<details>
+  <summary>What should I do if the baseline import is stuck or failed?</summary>
+
+Open the collection detail page. If the import is in PENDING with no progress after 10 minutes, click **Retry baseline import**. If it shows FAILED, the same button appears with an error message explaining the cause.
+
+See [Troubleshooting — Baseline import is stuck or failed](/smart-collections/troubleshooting/#baseline-import-is-stuck-or-failed) for step-by-step guidance.
+
+</details>
+
 ## Rules & Membership
 
 <details>
@@ -59,6 +100,15 @@ Typically within a few seconds. When a product is created, updated, or deleted i
   <summary>What happens to a product if it stops matching the collection rules?</summary>
 
 It is removed from the collection on the next sync. The product itself is not affected in any way — only its membership in that specific collection changes. It will be re-added automatically if it later changes to match the rules again.
+
+</details>
+
+<details>
+  <summary>Can I combine AND and OR logic in the same rule?</summary>
+
+Yes. The rule builder supports nested condition groups. Use **Add group** to insert a new nested group, or **Wrap in group** to convert an existing condition into a group.
+
+Each group has its own AND/OR toggle, letting you express logic like "products tagged 'sale' under £100, OR products tagged 'clearance' with fewer than 5 in stock". See [Rule-Based Collections — Nested AND/OR groups](/smart-collections/rule-based-collections/#nested-andor-groups).
 
 </details>
 

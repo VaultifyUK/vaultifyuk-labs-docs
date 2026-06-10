@@ -65,6 +65,7 @@ Smart Collections keeps collections in sync automatically. You do not need to tr
 | Rules saved | The affected collection is re-evaluated and re-sorted |
 | Sort settings saved | The affected collection is re-sorted |
 | Collection modified in Shopify admin (sort mode changed, products edited manually) | The affected collection is re-evaluated to restore app ownership |
+| Source collection membership changed | All composed collections that use that source are re-evaluated (cascade sync) |
 
 Syncs triggered by product changes typically complete within a few seconds, though larger catalogues may take longer.
 
@@ -84,16 +85,17 @@ Manual reordering you do in Shopify admin for a managed collection will be overw
 
 The collection detail page shows the last 10 syncs for that collection, including:
 
-- What triggered the sync (product update, rule save, manual, etc.)
+- What triggered the sync (product update, rule save, manual, cascade, etc.)
 - When it ran and how long it took
 - Products added, removed, and reordered
 - Whether it succeeded or failed
 
-For a shop-wide view across all managed collections, use the **Sync** section in the main navigation.
+For a shop-wide view across all managed collections — with filtering, search, and expandable failure detail — use the [Sync Dashboard](/smart-collections/sync-dashboard/).
 
 ## Related topics
 
 <CardGrid>
+  <LinkCard title="Sync Dashboard" href="/smart-collections/sync-dashboard/" description="Shop-wide view of all active and historical syncs with failure diagnostics." />
   <LinkCard title="Product Pins" href="/smart-collections/product-pins/" description="Hold specific products at fixed positions — exempt from sort and demotion." />
   <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="How membership is evaluated before sorting applies." />
   <LinkCard title="Troubleshooting" href="/smart-collections/troubleshooting/" description="Diagnose sort order and sync issues." />

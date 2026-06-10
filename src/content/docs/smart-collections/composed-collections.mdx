@@ -7,7 +7,7 @@ sidebar:
 
 import { Steps, LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-A composed collection draws its products from one or more other managed collections rather than from a rule that runs directly against your full catalogue. This is useful when you want to combine the membership of several targeted collections into one place, or reuse an existing collection's rules without duplicating them.
+A composed collection draws its products from one or more other managed collections — called **source collections** — rather than from a rule that runs directly against your full catalogue. This is useful when you want to combine the membership of several targeted collections into one place, or reuse an existing collection's rules without duplicating them.
 
 ![Composed collection detail page showing two source collections and a local filter rule with the live product count](/screenshots/placeholder.png)
 
@@ -50,10 +50,6 @@ Only managed collections (those already owned by Smart Collections) can be added
 </Steps>
 
 Adding the first source to a rule-based collection converts it to a composed collection. See [Converting back to rule-based](#converting-back-to-rule-based) if you need to reverse this.
-
-:::note
-Collections that are part of a collection hierarchy cannot be used as composition sources, and vice versa. Hierarchy and composition are mutually exclusive on the same collection.
-:::
 
 ### Remove a source collection
 
@@ -112,6 +108,15 @@ The collection detail page shows any issues detected with source relationships:
 Issues appear with severity indicators (issue, warning, or note). Raw diagnostic codes are not shown.
 
 ![Composed collection detail page showing a source health warning](/screenshots/placeholder.png)
+
+## Terminology
+
+Use these terms consistently when working with composition. Avoid "parent" and "child" — those terms are reserved for collection hierarchy, which is a separate feature.
+
+| Term | Meaning |
+| --- | --- |
+| **Source collection** | A managed collection that contributes its products to a composed collection |
+| **Composed collection** | A collection that draws its membership from one or more source collections |
 
 ## Pins and sort order
 

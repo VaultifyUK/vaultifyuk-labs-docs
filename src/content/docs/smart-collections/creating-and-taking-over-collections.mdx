@@ -1,11 +1,11 @@
 ---
 title: Creating & Taking Over Collections
-description: How to create new Shopify collections through Smart Collections, and how to take over management of existing ones.
+description: How to create new Shopify collections through Smart Collections, and how to take over management of existing ones — including Adopt mode, baseline import, and the first-activation guarantee.
 sidebar:
   order: 3
 ---
 
-import { Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { Steps, Tabs, TabItem, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Smart Collections can manage a collection in two ways: create a new one from scratch, or take over an existing collection already in your store. Both result in a collection whose membership and sort order are controlled automatically.
 
@@ -41,25 +41,87 @@ You can hand off an existing manual Shopify collection to Smart Collections with
 Only manual Shopify collections can be taken over. Shopify automated collections (those with Shopify-managed rules) are not supported — Smart Collections will reject them because Shopify's rule engine conflicts with its own membership management. To migrate a Shopify automated collection, create a new Smart Collections collection with equivalent rules instead.
 :::
 
+### Choose a takeover mode
+
+When taking over an existing collection, you choose one of two modes:
+
+| Mode | What it does |
+| --- | --- |
+| **Adopt** | Preserves all existing products as a baseline. Your rules take effect alongside the baseline over time. The first sync makes **zero changes** to your storefront. |
+| **Enforce** | Applies your rules immediately. Products that do not match are removed on the first sync. |
+
+**Adopt mode is recommended** for any live collection your customers are actively browsing. It gives you time to configure and validate rules without risking unexpected changes to your storefront.
+
+### Setting up a takeover
+
 <Steps>
 
 1. Click **New Collection** in the Smart Collections dashboard
 2. Select **Take over existing collection**
 3. Search for the collection by name and select it
-4. Configure your membership rules
-5. Click **Save and sync**
+4. Choose a takeover mode — **Adopt** or **Enforce**
+5. Configure your membership rules
+6. Click **Save and sync**
 
 </Steps>
 
-Smart Collections sets the collection to manual sort order (required for automated management) then runs a baseline import before the first evaluation.
+### What happens in Adopt mode
+
+When you take over in Adopt mode, Smart Collections runs a **baseline import** before the collection can be activated:
+
+<Steps>
+
+1. Smart Collections reads the collection's current product list from Shopify — this is read-only and makes no changes to your store
+2. Every product in the collection is recorded as the baseline
+3. The collection becomes activatable once the baseline import completes
+
+</Steps>
+
+![Collection detail page showing the baseline import progress indicator with a spinner and "Importing baseline…" message](/screenshots/placeholder.png)
+
+The progress indicator on the collection detail page tracks the import. For most collections this completes within seconds; large collections may take a minute or two.
 
 :::note
-When you take over a collection, Smart Collections first records its current product set. This import runs in the background and must complete before the first sync can run — you will see a progress indicator on the collection detail page while it is in progress. For large collections this may take a minute or two.
+**The collection cannot activate until the baseline import is complete.** This is intentional — it ensures the first sync produces zero changes. Once the import finishes, the collection transitions from Pending to Active automatically.
 :::
 
-:::caution
-When the first sync runs after takeover, Smart Collections will add or remove products based on your rules. Products that do not match your rules will be removed on the next sync. Review your rules carefully before saving.
+### The first activation guarantee
+
+Once the baseline import completes and you activate the collection, the first sync produces **zero changes** — no products are added and no products are removed. Your storefront looks exactly as it did before Smart Collections took ownership.
+
+This guarantee holds regardless of what rules you have configured, because Adopt mode inserts a special condition that matches every product in your original baseline.
+
+:::note
+When you open the Sync Dashboard after your first activation, you will see this sync recorded with **0 products added** and **0 products removed**. This is the expected and correct result — it confirms the guarantee held and your collection was preserved exactly.
 :::
+
+### Evolving your rules over time
+
+After takeover, your collection detail page shows the baseline as a read-only **"Original collection products"** item in the rules panel. This is not a rule you can edit directly — it is the safety net that preserves your original products.
+
+Over time, you can:
+
+- **Add rules** — conditions you add narrow the baseline or expand it with OR logic
+- **Add nested groups** — combine AND and OR conditions to express complex merchandising logic
+- **Remove the baseline** — when you are ready for rules to fully control membership, remove the baseline via **Danger Zone → Remove baseline**
+
+### Remove baseline
+
+When you remove the baseline, only products matching your authored rules remain in the collection. Products that were in the collection only because of the baseline are removed on the next sync.
+
+:::note
+Removing the baseline does **not** delete the snapshot. Your original product set is still recorded, so you can always restore it later.
+:::
+
+### Restore baseline
+
+If you have removed the baseline and want to reinstate it, use **Restore baseline** on the collection detail page. This re-adds the original baseline condition — Smart Collections re-reads the stored snapshot and applies it on the next sync.
+
+### If the baseline import fails
+
+If the baseline import encounters an error (for example, a temporary Shopify API issue), the collection detail page shows a failure notice with a **Retry import** button. Click it to restart the import. The import is safe to retry — it always reads the latest state from Shopify and records it cleanly regardless of whether a partial import had run before.
+
+The collection remains non-activatable until a retry succeeds.
 
 ### What changes when you take over a collection
 
