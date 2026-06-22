@@ -2,7 +2,7 @@
 title: Sync Dashboard
 description: Monitor all sync activity across your managed collections — active syncs with live progress, a searchable history of completed and failed runs, and diagnostic detail for any failure.
 sidebar:
-  order: 8
+  order: 9
 ---
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
@@ -55,9 +55,10 @@ Use the filters at the top of the History section to narrow the list:
 
 | Filter | Options |
 | --- | --- |
-| Status | All / Failed / Done |
-| Triggered by | All / Manual / Product updated / Product deleted / Configuration saved / Cascade sync / Install sync / Scheduled sync |
-| Date range | Last 24h / Last 7d / Last 30d / All time |
+| Collection | Filterable dropdown — select a specific managed collection |
+| Status | All / Done / Failed |
+| Triggered by | All triggers / Manual sync / Configuration saved / Product updated / Product deleted / Cascade sync / Install sync / Scheduled sync |
+| Date range | Last 24 hours / Last 7 days / Last 30 days / All time |
 
 The search box searches collection name, collection ID, sync ID, and error message text simultaneously.
 
@@ -83,7 +84,7 @@ A **View collection →** link at the top of the expanded row takes you directly
 | Configuration saved | You saved a rule or sort change |
 | Cascade sync | A source collection changed, triggering re-evaluation of this composed collection |
 | Install sync | The initial sync that runs when the app is first installed |
-| Scheduled sync | A sync triggered by a schedule (future feature) |
+| Scheduled sync | A sync triggered by a recurring schedule — **coming soon** |
 
 ## Diagnostic workflow
 

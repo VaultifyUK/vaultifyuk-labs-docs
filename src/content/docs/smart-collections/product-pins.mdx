@@ -2,7 +2,7 @@
 title: Product Pins
 description: Pin specific products to fixed positions at the top or bottom of a collection, regardless of sort order or sync activity.
 sidebar:
-  order: 6
+  order: 8
 ---
 
 import { Steps, Tabs, TabItem, LinkCard, CardGrid } from '@astrojs/starlight/components';
@@ -112,6 +112,10 @@ After removal, the product re-enters the sorted pool on the next sync and is pla
   </TabItem>
 </Tabs>
 
+## Pin limits
+
+Each collection supports up to **100 top pins** and **100 bottom pins**. Reaching the limit for one type does not affect the other.
+
 ## Inactive pins
 
 A pin is **inactive** when its product is not currently a member of the collection. Inactive pins:
@@ -135,7 +139,7 @@ If a pinned product no longer matches the collection's rules, Smart Collections 
 If the product later re-matches the rules, it re-enters the collection and its pin is restored automatically.
 
 :::tip
-You can combine pins with any sort key. For example: pin your newest product at position 1, use "Best selling" for everything else. The best sellers fill positions 2 onwards; the pinned product stays at the top regardless of its sales history.
+You can combine pins with any sort key. For example: pin your hero product at position 1, use **Price: Low to High** for everything else. Products fill positions 2 onwards in price order; the pinned product stays at the top regardless of price.
 :::
 
 ## Related topics

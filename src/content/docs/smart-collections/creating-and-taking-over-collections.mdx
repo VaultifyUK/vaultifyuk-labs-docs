@@ -2,7 +2,7 @@
 title: Creating & Taking Over Collections
 description: How to create new Shopify collections through Smart Collections, and how to take over management of existing ones — including Adopt mode, baseline import, and the first-activation guarantee.
 sidebar:
-  order: 3
+  order: 4
 ---
 
 import { Steps, Tabs, TabItem, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
@@ -47,8 +47,8 @@ When taking over an existing collection, you choose one of two modes:
 
 | Mode | What it does |
 | --- | --- |
-| **Adopt** | Preserves all existing products as a baseline. Your rules take effect alongside the baseline over time. The first sync makes **zero changes** to your storefront. |
-| **Enforce** | Applies your rules immediately. Products that do not match are removed on the first sync. |
+| **Adopt** | Preserves all existing products as a baseline. Your rules take effect alongside the baseline over time. The first sync makes **zero changes** to your storefront. A baseline import runs automatically before activation. |
+| **Enforce** | Applies your rules immediately. Products that do not match are removed on the first sync. No baseline import is required — the collection is ready to activate immediately after setup. |
 
 **Adopt mode is recommended** for any live collection your customers are actively browsing. It gives you time to configure and validate rules without risking unexpected changes to your storefront.
 
@@ -147,6 +147,43 @@ Once a collection is managed, its detail page shows:
 A **Sync now** button lets you trigger an immediate re-evaluation and re-sort at any time.
 
 ![Collection detail page showing sync status, rule summary, and recent sync history](/screenshots/placeholder.png)
+
+## Pausing and resuming automation
+
+You can pause automation on a collection without releasing it or losing any configuration. This is useful when you are making significant changes to your catalogue or rules and want to prevent syncs from running in the interim.
+
+### Pause automation
+
+<Steps>
+
+1. Open the collection in Smart Collections
+2. Click **Pause automation** in the collection detail header
+3. Confirm — the collection status changes to **Paused** immediately
+
+</Steps>
+
+While paused:
+
+- Collection membership and sorting are not automatically synchronised while paused, including webhook-triggered evaluations
+- Rules and sort settings can still be configured and saved
+- The collection remains visible in your Shopify store with its last-synced product set intact
+- The collection appears as **Paused** in your collections list
+
+### Reactivate automation
+
+<Steps>
+
+1. Open the paused collection in Smart Collections
+2. Click **Reactivate automation**
+3. Smart Collections queues a full evaluation sync as soon as automation is reactivated
+
+</Steps>
+
+:::tip
+Pausing is ideal when you are restructuring a category, expecting a large catalogue import, or troubleshooting unexpected membership changes. Because configuration is retained, you can pick up exactly where you left off.
+:::
+
+---
 
 ## Stopping management
 

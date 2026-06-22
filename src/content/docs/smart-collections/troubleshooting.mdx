@@ -2,7 +2,7 @@
 title: Troubleshooting
 description: Diagnose and resolve common issues with Smart Collections — products missing, unexpected membership, sync errors, and sort order problems.
 sidebar:
-  order: 10
+  order: 12
 ---
 
 import { Steps, LinkCard, CardGrid } from '@astrojs/starlight/components';
@@ -139,7 +139,7 @@ A baseline import must complete before the collection can be activated for the f
 <Steps>
 
 1. Open the collection detail page — it will show baseline import progress or status
-2. If no progress has been made for more than 10 minutes, click **Retry baseline import** to re-trigger it
+2. If no progress has been made for more than 10 minutes, click **Retry import** to re-trigger it
 3. If the button is not visible, click **Sync now** — for collections awaiting baseline completion this triggers a retry
 
 </Steps>
@@ -151,7 +151,7 @@ Baseline imports are idempotent. Retrying is safe and will not duplicate or lose
 <Steps>
 
 1. Open the collection detail page and check the error message shown below the baseline status
-2. Click **Retry baseline import**
+2. Click **Retry import**
 3. If the retry fails again, contact support with the collection name and the error message text
 
 </Steps>
@@ -176,6 +176,22 @@ Click **Sync now**, wait for it to complete, then check the **Sync history** ent
 
 ---
 
+## Data retention
+
+Smart Collections stores sync and activity history for a limited period. If you are looking for records older than these windows, they may no longer be available.
+
+| Data type | Retention period |
+| --- | --- |
+| Activity events (rule changes, sort changes, Shopify Admin edits, lifecycle events) | 1 year |
+| Sync run change detail (products added, removed, reordered) | 90 days |
+| Sync run records (status, trigger, duration) | Retained beyond 90 days for trend charts |
+
+:::note
+Activity events are written once and never modified. They cover all 16 event types including collection lifecycle changes, rule updates, sort configuration diffs, and Shopify Admin edits detected by the app.
+:::
+
+---
+
 ## Contacting support
 
 If the steps above do not resolve your issue:
@@ -188,6 +204,7 @@ Include your store URL, the affected collection name, any error message from the
 ## Related topics
 
 <CardGrid>
+  <LinkCard title="Activity" href="/smart-collections/activity/" description="Search the full history of configuration changes and Shopify Admin edits." />
   <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="Condition types, operators, and logic modes." />
   <LinkCard title="Composed Collections" href="/smart-collections/composed-collections/" description="How source aggregation and cascade updates work." />
   <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Sort keys, demotion, and sync triggers." />

@@ -1,0 +1,532 @@
+---
+title: Activity
+description: A searchable, filterable timeline of every configuration change, lifecycle event, and Shopify Admin edit across all your Smart Collections–managed collections.
+sidebar:
+  order: 10
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+:::note[Planned feature]
+Collection-level activity timelines are available today on each collection detail page. This page documents the planned global Activity experience, which will add cross-collection search, filtering, and investigation workflows. The implementation may evolve slightly as development progresses.
+:::
+
+## Why Activity exists
+
+Collections change over time. Rules change. Sort orders change. Shopify Admin changes occur. Automation is paused and reactivated. Without a permanent record there is no way to answer:
+
+- What changed?
+- Who changed it?
+- When did it change?
+- Was the change intentional, or was it made outside Smart Collections?
+
+Shopify does not provide a configuration history for collections. Smart Collections fills that gap. Every rule change, sort update, lifecycle event, and externally detected edit is captured as an immutable audit event at the moment it occurs, with actor attribution and a human-readable change summary.
+
+The Activity page is the global view of that record. Use it to answer:
+
+- When did someone last change the rules on this collection?
+- Which collections were affected by a Shopify Admin change?
+- What exactly changed in the sort configuration last Tuesday?
+- Was automation paused on this collection, and by whom?
+
+## Activity vs Sync Dashboard
+
+These two pages are complementary. They answer different questions.
+
+**Sync Dashboard** answers:
+- What automation ran, and when?
+- Which products were added, removed, or reordered?
+- Did a sync fail, and why?
+
+**Activity** answers:
+- Why does this configuration look the way it does now?
+- Who changed it, and when?
+- Was the change made through Smart Collections, or directly in Shopify Admin?
+- What was the exact nature of the change?
+
+Use the Sync Dashboard to diagnose a failed sync. Use Activity to understand why the rules or configuration look the way they do.
+
+Access Activity via **Activity** in the main navigation.
+
+![Activity page showing a list of recent events across all collections, with search bar, collection filter, event type filter, and event entries showing actor labels and change summaries](/screenshots/placeholder.png)
+
+## Global activity vs collection-level activity
+
+**Global Activity (this page)** — shows events across every managed collection. Search and filter to find what you need across your entire estate.
+
+**Collection-level activity** — each collection's detail page shows a timeline of events for that collection only. Use the collection detail view when you are already investigating a specific collection.
+
+Both views show the same underlying event data. Collection-level activity is the same events, scoped by collection. A **View all activity for this collection →** link on the collection detail timeline opens the global Activity page with the collection filter pre-applied.
+
+---
+
+## Searching and filtering
+
+### Search
+
+The search box at the top of the page searches across:
+
+- Collection name
+- Human-readable event type labels (e.g. "Rule tree changed" — not internal enum values)
+- Change summary text (e.g. "Added condition: tag includes 'sale'")
+
+Search is debounced and server-side. Results update after a short pause as you type. Search combines with all active filters — the results shown are events that match both the search text and all applied filters.
+
+### Filter layout
+
+Filters are arranged left to right in a single row, consistent with the Sync Dashboard and other Smart Collections pages:
+
+1. **Search** — free-text input
+2. **Collection** — dropdown
+3. **Event Type** — multi-select dropdown
+4. **Actor** — multi-select dropdown
+5. **Date Range** — preset selector
+6. **Sort** — far right, consistent with other pages
+
+Use the existing filter popup and dropdown patterns already established in Smart Collections. The Activity filter row should feel like an evolution of the Sync Dashboard filter row, not a new interface paradigm.
+
+### Filters
+
+| Filter | Type | Behaviour |
+| --- | --- | --- |
+| **Collection** | Single-select dropdown | Filter to one managed collection. The dropdown supports typing to narrow by collection name. Clearable — removing the selection returns to the cross-collection view. |
+| **Event type** | Multi-select dropdown | Filter to one or more event types simultaneously. For example: select "Rule tree changed" and "Sort config changed" to see all configuration change events. |
+| **Actor** | Multi-select dropdown | Filter to one or more actors simultaneously: Merchant, Shopify Admin, Smart Collections, System. |
+| **Date range** | Preset selector | Last 24 hours / Last 7 days / Last 30 days / Last 3 months / All time (within the 1-year retention window). |
+
+**Filter semantics:** All filters are additive (AND). A collection filter combined with actor "Merchant" and event type "Rule tree changed" shows only merchant-initiated rule changes on that collection.
+
+### URL state
+
+Filter selections and search text are reflected in the URL as query parameters. This means:
+
+- Filtered views can be bookmarked and shared directly
+- The browser back button restores the previous filter state
+- Other surfaces in the app (Overview Dashboard attention items, collection detail timelines) can link into Activity with filters pre-applied
+- Support teams can share a pre-filtered URL with merchants
+
+Example URLs:
+
+```text
+/activity
+/activity?collection=configId
+/activity?q=rule
+/activity?collection=configId&q=rule
+/activity?collection=configId&type=rule-tree-changed
+/activity?actor=merchant
+/activity?range=30d
+```
+
+Multi-select filters use comma-separated values:
+
+```text
+/activity?type=rule-tree-changed,sort-config-changed
+/activity?actor=merchant,shopify-admin
+/activity?collection=configId&actor=merchant&type=rule-tree-changed&range=30d
+```
+
+URL parameters must be:
+
+- Human-readable (not encoded blobs or opaque identifiers)
+- Predictable and easy to generate from other surfaces
+- Stable enough to be used in shared links and support tickets
+- Easy to parse on the server side
+
+Do not use encoded filter state, hashed parameters, or complex query syntax. The exact parameter names may be refined during implementation but the structure above defines the required shape.
+
+---
+
+## Reading an activity entry
+
+### Collapsed state
+
+Each entry in the timeline shows:
+
+| Field | Detail |
+| --- | --- |
+| **Event type** | Human-readable label, e.g. "Rule tree changed" |
+| **Collection** | Name of the collection. Links to the collection's detail page. |
+| **Actor** | Who or what triggered the event — see [Actor labels](#actor-labels) |
+| **Time** | Relative time by default, e.g. "3 minutes ago". Hovering shows the absolute UTC timestamp. |
+| **Change summary** | The first change summary line. If there are multiple lines, the first is shown with a count badge: "+2 more". Events with no change summary show a dash. |
+
+### Expanded state
+
+Clicking an entry expands it in place. The expanded state shows:
+
+- All change summary lines, in full, not truncated
+- For events with no change summary (e.g. collection lifecycle events): a short self-describing message, e.g. "No additional detail recorded for this event type"
+- A **View collection →** link navigating directly to the collection detail page
+
+The expanded state does not show raw JSON snapshots or internal data. It shows only the human-readable summaries generated at write time.
+
+### Entry examples
+
+**Rule tree changed — two conditions added:**
+
+Collapsed:
+```
+Rule tree changed      Summer Sale 2026   Merchant   10 minutes ago
+Added condition: tag includes 'sale'   +1 more ▾
+```
+
+Expanded:
+```
+Added condition: tag includes 'sale'
+Added condition: price less than 100
+View collection →
+```
+
+**Collection activated — lifecycle event (no change summary):**
+
+Collapsed:
+```
+Collection activated   New Arrivals       System     Yesterday
+—
+```
+
+Expanded:
+```
+No additional detail recorded for this event type.
+View collection →
+```
+
+**Shopify membership drift — no detailed summary:**
+
+Collapsed:
+```
+Shopify membership drift   Winter Boots   Smart Collections   2 days ago
+Products were manually changed outside Smart Collections
+```
+
+Expanded:
+```
+Products were manually changed in Shopify Admin without going through Smart Collections.
+Smart Collections will restore the expected membership on the next sync.
+View collection →
+```
+
+**Shopify metadata changed:**
+
+Collapsed:
+```
+Shopify metadata changed   Running Shoes   Shopify Admin   5 hours ago
+Name changed
+```
+
+Expanded:
+```
+Name changed
+SEO description changed
+View collection →
+```
+
+**Sales channels changed:**
+
+Collapsed:
+```
+Sales channels changed   Clearance   Shopify Admin   1 hour ago
+Published to Google Shopping
+```
+
+Expanded:
+```
+Published to Google Shopping
+View collection →
+```
+
+**Composition source added:**
+
+Collapsed:
+```
+Composition source added   Seasonal Promotions   Merchant   3 minutes ago
+Added source: Summer Sale
+```
+
+Expanded:
+```
+Added source:
+• Summer Sale
+
+The collection will automatically inherit products from this source collection during future evaluations.
+
+View collection →
+```
+
+---
+
+## Loading more results
+
+The timeline loads the most recent events first. Scroll to the bottom and click **Load more** to fetch older events. The page remains responsive while additional events are loading — existing entries stay visible.
+
+When no further events exist (either the feed is exhausted or the 1-year retention boundary has been reached), the **Load more** button is replaced with:
+
+> You have reached the end of your activity history. Events older than one year are removed automatically.
+
+---
+
+## Event types
+
+### Collection lifecycle
+
+These events are self-describing — no change summary is shown.
+
+| Event | When it appears | Expected actor |
+| --- | --- | --- |
+| Collection created | A new collection was created through Smart Collections | Merchant |
+| Collection taken over | An existing Shopify collection was taken over by Smart Collections | Merchant |
+| Collection activated | Automation was enabled on the collection for the first time, or re-enabled after being paused | Merchant |
+| Automation paused | Automation was paused — no syncs run while paused, but configuration is retained | Merchant |
+| Collection released | Smart Collections stopped managing the collection; it was returned to full merchant control | Merchant |
+| Collection deleted | The collection was deleted from Shopify | Merchant |
+
+### Configuration changes
+
+| Event | Change summary shown | Expected actor |
+| --- | --- | --- |
+| Rule tree changed | Condition-level changes: "Added condition: tag includes 'sale'", "Removed condition: price less than 100" | Merchant |
+| Sort config changed | Field-level diffs: "Sort key changed from TITLE-ASC to PRICE-ASC", "Out-of-stock demotion enabled", "Top pins updated" | Merchant |
+
+### Baseline events
+
+| Event | Change summary shown | Expected actor |
+| --- | --- | --- |
+| Baseline imported | Number of products imported: "Imported 142 products" | System |
+| Baseline restored | No summary — the event is self-describing | Merchant |
+
+### Composition events
+
+| Event | Change summary shown | Expected actor |
+| --- | --- | --- |
+| Composition source added | Which source was added: "Added source: Summer Sale" | Merchant |
+| Composition source removed | Which source was removed: "Removed source: Archive" | Merchant |
+| Composition model converted | Which model the collection converted to: "Converted to composed collection" or "Converted to rule-based collection" | Merchant |
+
+### Shopify-detected changes
+
+These events are created automatically by Smart Collections when it detects that someone has made a change in Shopify Admin without going through the app.
+
+| Event | Change summary shown | Expected actor |
+| --- | --- | --- |
+| Shopify metadata changed | Field-level changes detected: "Name changed", "SEO title changed", "Handle changed", "Template changed" | Shopify Admin |
+| Sales channels changed | Publication changes: "Published to Google Shopping", "Unpublished from Facebook" | Shopify Admin |
+| Shopify membership drift | Detected that products were manually added to or removed from the collection outside of Smart Collections — no detailed summary | Smart Collections |
+
+:::note[Actor attribution contract]
+The "Expected actor" column above defines the actor that should be written when the event is recorded. It acts as a contract between audit event writers and the Activity page. Deviations require an explicit documented reason.
+:::
+
+---
+
+## Actor labels
+
+Every event is attributed to the entity that caused it:
+
+| Actor | Meaning |
+| --- | --- |
+| **Merchant** | A store admin made a change through the Smart Collections app UI |
+| **Shopify Admin** | A change was detected that originated in Shopify Admin rather than through Smart Collections |
+| **Smart Collections** | The app itself triggered the event — for example, detecting membership drift after a webhook |
+| **System** | An automated process triggered the event — for example, a scheduled baseline import |
+
+---
+
+## Change summaries
+
+Configuration events include human-readable change summaries generated at the time the event was recorded. These summaries are permanent — they do not change if your rules or sort configuration subsequently changes again.
+
+**Rule changes** are described at the condition level:
+
+```
+Added condition: tag includes 'new-arrival'
+Removed condition: price less than 50
+Root operator changed to OR
+```
+
+**Sort changes** are described at the field level:
+
+```
+Sort key changed from CREATED_DATE-DESC to PRICE-ASC
+Out-of-stock demotion enabled
+Top pins updated
+```
+
+**Composition events** name the source collection:
+
+```
+Added source: Clearance Collection
+Removed source: Winter Archive
+```
+
+**Shopify metadata changes** describe which fields changed:
+
+```
+Name changed
+SEO description changed
+```
+
+**Sales channel changes** name the affected channel where available:
+
+```
+Published to Google Shopping
+Unpublished from Facebook
+```
+
+---
+
+## UI states
+
+### Loading
+
+While events are fetching, a loading indicator or skeleton rows are shown in place of the list. The search box, filters, and period selector remain interactive during load.
+
+### Empty — no events yet
+
+If no activity events exist for the store (for example, no collections have been managed yet, or all have been released), show:
+
+> **No activity yet.**
+> Activity will appear here as you create and manage collections.
+
+Include a link to Getting Started and a link to create a collection.
+
+### No results — search or filter returned nothing
+
+If the current search text or filter combination produces zero matching events, show:
+
+> **No activity found.**
+> Try widening your date range, clearing the collection filter, or searching for different text.
+
+Include a **Clear all filters** button that resets search, filters, and date range simultaneously.
+
+### Error — failed to load
+
+If the event feed fails to load, show a banner:
+
+> **Activity could not be loaded.** Refresh the page to try again. If the problem persists, contact support.
+
+Do not show a blank page. Existing loaded entries should remain visible if a subsequent page fails to load.
+
+### End of history
+
+When all available events have been loaded (the feed is exhausted or the 1-year retention boundary has been reached), replace the **Load more** button with a message:
+
+> You have reached the end of your activity history. Events older than one year are removed automatically.
+
+---
+
+## Navigation
+
+### Arriving at Activity
+
+| From | Behaviour |
+| --- | --- |
+| Main navigation → **Activity** | Opens Activity with no filters applied |
+| Collection detail page → **View all activity for this collection →** | Opens Activity pre-filtered to that collection (`?collection=configId`) |
+| Overview Dashboard → configuration-related attention item | Opens Activity pre-filtered to the relevant collection (see [Overview Dashboard integration](#overview-dashboard-integration) below) |
+
+Pre-filtered links use URL parameters so the filter state is immediately visible and shareable. See [URL state](#url-state).
+
+### From an activity entry
+
+- The **collection name** in each collapsed entry is a link to that collection's detail page
+- The **View collection →** link in the expanded entry also navigates to the collection detail page
+
+### Relationship between views
+
+Collection-level activity (on the collection detail page) and global Activity show the same underlying events. There is no separate data store. Navigating from a collection's activity timeline to global Activity pre-filtered to that collection shows the same events in both places.
+
+### Overview Dashboard integration
+
+The Overview Dashboard surfaces attention items for collections that need action. When a merchant clicks an attention item, they should be taken to the most useful investigative surface. The rule is:
+
+> **"Why did something change?"** → Activity
+>
+> **"Why didn't automation work?"** → Sync Dashboard
+
+| Attention item type | Navigate to |
+| --- | --- |
+| Shopify metadata changed on a collection | Activity, pre-filtered to that collection |
+| Sales channels changed on a collection | Activity, pre-filtered to that collection |
+| Configuration changed unexpectedly | Activity, pre-filtered to that collection |
+| Last sync failed | Sync Dashboard, filtered to that collection's failed runs |
+| Collection has never synced (warning after 24h) | Sync Dashboard, or collection detail page |
+| Long-running or stuck sync | Sync Dashboard |
+| Membership evaluation failure | Sync Dashboard |
+| Composition graph issue (cycle, broken link) | Composed Collections diagnostics on the collection detail page |
+
+This distinction is the implementation contract for any future attention item that links out of the Overview Dashboard. Apply the same rule: configuration and external-edit questions go to Activity; automation failure questions go to Sync Dashboard.
+
+---
+
+## Performance expectations
+
+- The initial page load shows the most recent events without requiring the full history to be loaded
+- Older events are fetched incrementally via the **Load more** action — they are not pre-loaded
+- The page must remain responsive when a large number of events exist — infinite scrolling or full-page loads are not acceptable
+- Applying a filter or search query issues a new request; it does not require a page reload
+- URL navigation (back/forward) restores filter state from URL parameters without a full re-render where possible
+
+These are expected behaviours. Implementation technology choices are left to the engineer.
+
+---
+
+## Using activity for troubleshooting
+
+**Products appeared or disappeared unexpectedly** — look for a Rule tree changed event around the time of the change. The change summary will show exactly which condition was added or removed, and the actor will tell you whether a merchant or the app made the change.
+
+**Sort order changed without anyone configuring it** — look for a Shopify metadata changed or Sort config changed event. A Shopify Admin actor indicates a change was made directly in Shopify, which Smart Collections detected and will override on the next sync.
+
+**A collection stopped syncing** — look for an Automation paused event. The actor label shows who paused it.
+
+**Something changed but I do not know who did it** — the actor label on every event shows whether it was a merchant, Shopify Admin, Smart Collections, or a system process.
+
+---
+
+## Data retention
+
+Activity events are stored for **one year** from the date they were recorded. After that, they are permanently deleted. Events are written once and never modified — the change summaries you see now are exactly as they were at the time of the event.
+
+For sync history (products added, removed, reordered), see [Troubleshooting — Data retention](/smart-collections/troubleshooting/#data-retention), which has a different retention window.
+
+---
+
+## Non-goals
+
+The initial release of the global Activity page does not provide:
+
+- **Editing activity events** — events are immutable by design
+- **Deleting individual activity events** — deletion is automatic at the end of the retention window only
+- **Exporting activity** — see Future enhancements
+- **Notifications or alerts** — see Future enhancements
+- **Bulk operations** on events
+- **Advanced query syntax** such as boolean operators in the search box
+- **Raw event data** or internal JSON snapshots — the UI exposes human-readable summaries only
+
+These constraints apply to the initial release and may be revisited based on merchant feedback.
+
+---
+
+## Future enhancements
+
+The following capabilities are being considered for future releases. None are committed. Scope and approach will be shaped by merchant feedback.
+
+| Enhancement | What it would enable |
+| --- | --- |
+| **Export** | Download activity events as CSV or JSONL for offline analysis, compliance records, or external tooling |
+| **Saved filter views** | Save a named filter combination for quick access — for example, "Shopify Admin changes this month" |
+| **Notification subscriptions** | Receive an alert when a specific event type occurs on a collection or across the estate |
+| **External integrations** | Push activity events to an external endpoint (webhook, Slack, etc.) in near real-time |
+| **Advanced search** | Structured query syntax for power users — for example, filtering by multiple actors or chaining event type conditions |
+
+If you have a use case that would benefit from one of these, contact support. Merchant feedback directly shapes the roadmap.
+
+---
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Overview Dashboard" href="/smart-collections/overview-dashboard/" description="Sync trend charts, attention alerts, and recent automation activity." />
+  <LinkCard title="Sync Dashboard" href="/smart-collections/sync-dashboard/" description="Sync run history with step-level detail and failure diagnostics." />
+  <LinkCard title="Creating & Taking Over Collections" href="/smart-collections/creating-and-taking-over-collections/" description="Adopt mode, baseline import, and collection lifecycle." />
+  <LinkCard title="Troubleshooting" href="/smart-collections/troubleshooting/" description="Use activity events to diagnose unexpected membership and sort changes." />
+</CardGrid>
