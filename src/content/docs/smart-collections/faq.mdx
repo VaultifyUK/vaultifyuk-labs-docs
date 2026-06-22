@@ -2,7 +2,7 @@
 title: FAQ
 description: Frequently asked questions about Smart Collections — how it works, what it affects, and what to expect.
 sidebar:
-  order: 13
+  order: 14
 ---
 
 ## General
@@ -166,6 +166,31 @@ Activity events are retained for one year. Sync run change detail (which product
   <summary>Can I see when someone changed a rule or paused automation?</summary>
 
 Yes. Every configuration change, lifecycle event, and externally detected Shopify Admin change is recorded in the Activity timeline with the actor (Merchant, Shopify Admin, Smart Collections, or System) and a timestamp. Rule changes include condition-level summaries showing exactly what was added or removed.
+
+</details>
+
+## Sales channels
+
+<details>
+  <summary>Can I control which sales channels a collection is published to from Smart Collections?</summary>
+
+Yes. Each collection detail page has a **Sales channels** section in the right panel. Check or uncheck channels, then click **Save** — the same save that commits rule and sort changes. Smart Collections applies the publication changes to Shopify immediately.
+
+See [Sales Channel Management](/smart-collections/sales-channel-management/) for the full workflow.
+
+</details>
+
+<details>
+  <summary>Does Smart Collections change which channels a collection is published to automatically?</summary>
+
+No. Smart Collections never changes publication state on its own. It applies publication changes only when you explicitly save them from the collection detail page. It does, however, detect when you change publication state in Shopify Admin directly, and records that change in Activity.
+
+</details>
+
+<details>
+  <summary>Will publication changes appear in Activity?</summary>
+
+Yes. Every publication change is recorded as a **Sales channels changed** event in Activity — whether it was made through Smart Collections (actor: Merchant) or directly in Shopify Admin (actor: Shopify Admin). Each event includes a summary of which channels were added or removed.
 
 </details>
 

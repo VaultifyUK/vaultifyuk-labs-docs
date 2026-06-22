@@ -206,6 +206,12 @@ Releasing restores the sort order that was active when you took over. Only the s
 
 After release, the collection returns to full merchant control. You can take it over again at any time.
 
+:::note
+After a collection is released, its detail page in Smart Collections shows the last-known configuration for reference. Rules, sort settings, and activity history are preserved but cannot be edited — the collection is read-only until it is taken over again.
+
+Released collections do not appear in the Collections list. To take over a released collection, go to **New Collection → Take over existing collection** and select the Shopify collection again.
+:::
+
 :::caution
 Only the store owner can release or delete a collection. Staff members with Shopify admin access can manage rules, sort settings, and syncs, but cannot perform these destructive actions.
 :::
@@ -231,13 +237,14 @@ If you only want to stop automating a collection without removing it, use **Stop
 
 ## If a collection is deleted in Shopify admin
 
-If a managed collection is deleted from Shopify admin rather than through Smart Collections, the app typically detects this via a webhook and removes it from your dashboard. Sync history is preserved.
+If a managed collection is deleted from Shopify admin rather than through Smart Collections, the app typically detects this via a webhook and marks it as deleted in your dashboard. Sync history and the last-known configuration are preserved for reference, but the detail page becomes read-only — the collection no longer exists in Shopify and cannot be edited. If you recreate the collection in Shopify, you can take it over again.
 
 If the collection still shows an error status after being deleted in Shopify, release it from the Danger Zone — Smart Collections detects the collection no longer exists and cleans up without error.
 
 ## Related topics
 
 <CardGrid>
+  <LinkCard title="Sales Channel Management" href="/smart-collections/sales-channel-management/" description="Control which sales channels a collection is published to." />
   <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="Configure which products belong in a collection." />
   <LinkCard title="Composed Collections" href="/smart-collections/composed-collections/" description="Build collections from multiple source collections." />
   <LinkCard title="Sorting & Automation" href="/smart-collections/sorting-and-automation/" description="Sort keys, pins, and automatic sync." />
