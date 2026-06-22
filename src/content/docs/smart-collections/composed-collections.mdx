@@ -2,7 +2,7 @@
 title: Composed Collections
 description: Build a collection by aggregating products from multiple other Smart Collections–managed collections, with optional filtering on top.
 sidebar:
-  order: 5
+  order: 6
 ---
 
 import { Steps, LinkCard, CardGrid } from '@astrojs/starlight/components';
@@ -97,17 +97,38 @@ A source that is released or deleted is automatically unlinked from all composed
 
 ## Composition health
 
-The collection detail page shows any issues detected with source relationships:
+The collection detail page shows any issues detected with source relationships. Issues are surfaced with severity levels — critical issues prevent the composition from producing a useful result; warnings indicate a degraded but still-functional state.
 
-| Issue | Meaning |
-| --- | --- |
-| No active sources | All sources are currently disabled — the collection would be empty |
-| Source sync failed | A source collection encountered an error on its last sync |
-| Source never synced | A source was added but has not completed its first sync yet |
+### Per-collection health issues
 
-Issues appear with severity indicators (issue, warning, or note). Raw diagnostic codes are not shown.
+| Issue | Severity | Meaning | What to do |
+| --- | --- | --- | --- |
+| No active sources | Critical | All sources are disabled — the composition is contributing no products | Re-enable at least one source collection. Navigate to the source and click **Reactivate automation**. |
+| Source disabled | Warning | One or more sources are paused — their products are not being contributed | Re-enable the source, or remove it if no longer needed |
+| Source sync failed | Warning | A source encountered an error on its last sync — its product set may be stale | Open the source collection and click **Sync now**; investigate via the Sync Dashboard if failures persist |
+| Source never synced | Warning | A source was added but has not completed its first sync yet | Wait for the source's initial sync to complete; if stuck, trigger a sync on the source collection |
+| Source stale | Warning | A source's last successful sync completed more than 24 hours ago | Open the source collection and check its sync status; trigger a manual sync if needed |
+| Source empty | Note | A source has active syncs but currently has no matching products — it contributes nothing | Review the source collection's rules; if intentional, no action needed |
 
-![Composed collection detail page showing a source health warning](/screenshots/placeholder.png)
+![Composed collection detail page showing a source health warning with severity indicator](/screenshots/placeholder.png)
+
+### Shop-wide composition graph issues
+
+In addition to per-collection health, the app validates the overall composition dependency graph across your store. Issues detected at the graph level are surfaced on the home dashboard as attention items.
+
+| Issue | Severity | Meaning | What to do |
+| --- | --- | --- | --- |
+| Cycle detected | Critical | Two or more composed collections reference each other as sources, creating a circular dependency | Remove the link that creates the cycle; compositions must form a directed acyclic graph |
+| Duplicate link | Warning | A source collection is linked to a composed collection more than once | Remove the duplicate source link from the composed collection |
+| Deleted source link | Warning | A source collection that was deleted still appears as a source | Open the composed collection and remove the broken source link |
+
+:::caution
+A composition cycle prevents evaluation from completing for all collections involved. If you see a cycle warning on the home dashboard, resolve it immediately by removing one of the source links that forms the loop.
+:::
+
+Composition health issues appear on the [Overview Dashboard](/smart-collections/overview-dashboard/) and link directly to the affected collections.
+
+Raw diagnostic codes are not shown in the UI. This section describes the conditions they represent.
 
 ## Terminology
 

@@ -2,7 +2,7 @@
 title: FAQ
 description: Frequently asked questions about Smart Collections — how it works, what it affects, and what to expect.
 sidebar:
-  order: 11
+  order: 13
 ---
 
 ## General
@@ -81,7 +81,7 @@ This does not delete the underlying snapshot. If you later want to restore it, u
 <details>
   <summary>What should I do if the baseline import is stuck or failed?</summary>
 
-Open the collection detail page. If the import is in PENDING with no progress after 10 minutes, click **Retry baseline import**. If it shows FAILED, the same button appears with an error message explaining the cause.
+Open the collection detail page. If the import is in PENDING with no progress after 10 minutes, click **Retry import**. If it shows FAILED, the same button appears with an error message explaining the cause.
 
 See [Troubleshooting — Baseline import is stuck or failed](/smart-collections/troubleshooting/#baseline-import-is-stuck-or-failed) for step-by-step guidance.
 
@@ -141,6 +141,31 @@ A **rule-based collection** evaluates your full product catalogue against condit
 A **composed collection** takes its membership from other Smart Collections–managed collections. You can optionally add local rule conditions to filter that inherited product set further.
 
 See [Rule-Based Collections](/smart-collections/rule-based-collections/) and [Composed Collections](/smart-collections/composed-collections/) for details.
+
+</details>
+
+## Activity & Visibility
+
+<details>
+  <summary>Where can I see a history of configuration changes?</summary>
+
+Open **Activity** in the main navigation. The Activity page shows every rule change, sort change, lifecycle event, and Shopify Admin edit across all your managed collections, with actor attribution and change summaries. Each collection's detail page also shows a collection-specific timeline.
+
+See [Activity](/smart-collections/activity/) for full details.
+
+</details>
+
+<details>
+  <summary>How long is activity history kept?</summary>
+
+Activity events are retained for one year. Sync run change detail (which products were added, removed, or reordered) is retained for 90 days. See [Troubleshooting — Data retention](/smart-collections/troubleshooting/#data-retention).
+
+</details>
+
+<details>
+  <summary>Can I see when someone changed a rule or paused automation?</summary>
+
+Yes. Every configuration change, lifecycle event, and externally detected Shopify Admin change is recorded in the Activity timeline with the actor (Merchant, Shopify Admin, Smart Collections, or System) and a timestamp. Rule changes include condition-level summaries showing exactly what was added or removed.
 
 </details>
 

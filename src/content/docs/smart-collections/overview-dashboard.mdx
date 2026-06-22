@@ -1,0 +1,96 @@
+---
+title: Overview Dashboard
+description: A live view of automation activity across all your managed collections — sync trend charts, success rate, attention alerts, products organised by collection, and recent activity.
+sidebar:
+  order: 3
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+The Overview Dashboard is the home page of Smart Collections. It gives you a real-time view of automation health across all your managed collections. Use it to quickly see whether syncs are succeeding, whether any collections need attention, and how your automation is performing over time.
+
+Access it by clicking **Smart Collections** in the Shopify App navigation, or by clicking the app icon.
+
+![Smart Collections overview dashboard showing sync trend chart, success rate donut, attention alerts, and recent activity feed](/screenshots/placeholder.png)
+
+## Attention items
+
+At the top of the dashboard, Smart Collections surfaces collections that require action. These appear as alerts with two severity levels:
+
+| Severity | Colour | Condition |
+| --- | --- | --- |
+| **Critical** | Red | The collection's last sync failed |
+| **Warning** | Yellow | The collection has been active for more than 24 hours but has never completed a successful sync |
+| **Warning** | Yellow | One or more composition graph issues were detected (cycle, broken source link, or similar) |
+
+Each alert links directly to the affected collection or the relevant diagnostics screen. If no issues are detected, the section shows "All collections are healthy."
+
+:::tip
+Critical alerts indicate a sync that actually failed — something went wrong during evaluation or sorting. Warning alerts flag collections that may simply need a manual sync to get started. Check the [Sync Dashboard](/smart-collections/sync-dashboard/) for failure details.
+:::
+
+## Sync trend chart
+
+The sync trend chart shows the volume of completed and failed syncs over a time period you choose.
+
+### Period selector
+
+Use the period selector above the chart to change the time window:
+
+| Option | What it shows |
+| --- | --- |
+| Last 24 hours | Hourly breakdown of the past 24 hours |
+| Last 7 days | Daily breakdown of the past 7 days |
+| Last 14 days | Daily breakdown of the past 14 days |
+| Last 30 days | Daily breakdown of the past 30 days |
+| Custom | Pick a start and end date |
+
+The charts across the dashboard update to reflect the selected period.
+
+## Success rate
+
+A donut chart shows the ratio of successful syncs to failed syncs within the selected period.
+
+A high success rate confirms your automation is running reliably. A declining success rate suggests a pattern of failures — open the [Sync Dashboard](/smart-collections/sync-dashboard/) and filter by **Failed** to investigate.
+
+## Failure trend
+
+A bar chart shows the number of failed syncs per day within the selected period. Spikes in this chart often correspond to catalogue changes, API disruptions, or structural issues with composed collections.
+
+## Products organised by collection
+
+A bar chart shows the number of products currently in each of your managed collections. This gives you a quick sense of whether collection sizes are as expected — a collection that suddenly shows zero products may indicate a rule issue or a failed sync.
+
+## Recent automation activity
+
+A feed of the most recent sync completions across all collections, newest first. Each entry shows:
+
+- The collection name (links to the collection detail page)
+- What triggered the sync (product update, rule save, manual, cascade, etc.)
+- How long ago it ran and how long it took
+- Whether it succeeded or failed
+
+This feed updates automatically while you have the dashboard open.
+
+## Top collections
+
+A table showing your most-synced collections within the selected period, ranked by sync count. This helps identify collections that are syncing very frequently — which can be useful for diagnosing webhook storms or cascading sync loops.
+
+## How to use the dashboard to investigate issues
+
+1. Check **Attention items** first — critical alerts point directly to the problem
+2. If there are no alerts but syncs are behaving unexpectedly, check the **Success rate** and **Failure trend** charts for the relevant time period
+3. Click through from an attention alert or the **Recent automation activity** feed to the affected collection
+4. From the collection detail page, use **Sync now** to trigger a fresh evaluation, or open the [Sync Dashboard](/smart-collections/sync-dashboard/) for full sync history and step-level detail
+5. For composition issues flagged in attention items, see [Composed Collections — Composition health](/smart-collections/composed-collections/#composition-health)
+
+The dashboard does not list all your managed collections. To browse, search, or manage collections, go to **Collections** in the main navigation.
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Sync Dashboard" href="/smart-collections/sync-dashboard/" description="Shop-wide history of all syncs with filtering, search, and step-level failure detail." />
+  <LinkCard title="Activity" href="/smart-collections/activity/" description="Every configuration change and Shopify Admin edit across all collections." />
+  <LinkCard title="Composed Collections" href="/smart-collections/composed-collections/" description="Composition health codes and how to resolve graph issues." />
+  <LinkCard title="Troubleshooting" href="/smart-collections/troubleshooting/" description="Step-by-step guides for common issues." />
+</CardGrid>

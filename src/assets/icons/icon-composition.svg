@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- Outer ring -->
+  <circle cx="40" cy="40" r="36" stroke="#C9A24C" stroke-width="1.5"/>
+
+  <!-- Source collection A (top left) -->
+  <circle cx="26" cy="26" r="6" stroke="#C9A24C" stroke-width="1.5"/>
+
+  <!-- Source collection B (top right) -->
+  <circle cx="54" cy="26" r="6" stroke="#C9A24C" stroke-width="1.5"/>
+
+  <!-- Flow lines from sources converging to the composed collection -->
+  <line x1="30" y1="31" x2="38" y2="47" stroke="#C9A24C" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="50" y1="31" x2="42" y2="47" stroke="#C9A24C" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Composed / target collection (bottom centre) -->
+  <circle cx="40" cy="54" r="6" stroke="#C9A24C" stroke-width="1.5"/>
+</svg>
