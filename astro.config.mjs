@@ -2,45 +2,141 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mdx from '@astrojs/mdx';
+import { readFile, writeFile, access } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// ─── Sidebar ─────────────────────────────────────────────────────────────────
+// Defined here so the autoSectionRedirects integration can read it directly.
+const sidebar = [
+	{
+		label: 'Smart Collections',
+		items: [
+			{ label: 'Overview', slug: 'smart-collections/overview' },
+			{ label: 'Getting Started', slug: 'smart-collections/getting-started' },
+			{
+				label: 'Collections',
+				items: [
+					{ label: 'Creating & Taking Over Collections', slug: 'smart-collections/creating-and-taking-over-collections' },
+					{ label: 'Rule-Based Collections', slug: 'smart-collections/rule-based-collections' },
+					{ label: 'Composed Collections', slug: 'smart-collections/composed-collections' },
+				],
+			},
+			{ label: 'Product Pins', slug: 'smart-collections/product-pins' },
+			{ label: 'Sorting & Automation', slug: 'smart-collections/sorting-and-automation' },
+			{ label: 'Sync Dashboard', slug: 'smart-collections/sync-dashboard' },
+			{ label: 'Billing & Plans', slug: 'smart-collections/billing-and-plans' },
+			{ label: 'Troubleshooting', slug: 'smart-collections/troubleshooting' },
+			{ label: 'FAQ', slug: 'smart-collections/faq' },
+		],
+	},
+];
+
+// ─── Auto section redirects ───────────────────────────────────────────────────
+// Astro integration that appends Cloudflare Pages redirect rules to dist/_redirects
+// after each build.  For every top-level sidebar group whose section root has no
+// index.md / index.mdx, it writes a 301 from /{section}/ to the first page in
+// that group.  Adding a new product section automatically gets a redirect — no
+// manual editing of public/_redirects required.
+
+/** Recursively find the slug of the first page entry in a sidebar items tree. */
+function firstSlugIn(items) {
+	for (const item of items) {
+		if (item.slug) return item.slug;
+		if (item.items) {
+			const found = firstSlugIn(item.items);
+			if (found) return found;
+		}
+	}
+	return null;
+}
+
+/** @returns {import('astro').AstroIntegration} */
+function autoSectionRedirects(sidebarGroups) {
+	return {
+		name: 'vault-section-redirects',
+		hooks: {
+			'astro:build:done': async ({ dir, logger }) => {
+				const outDir = fileURLToPath(dir);
+				const contentBase = resolve('./src/content/docs');
+				const rules = [];
+
+				for (const group of sidebarGroups) {
+					const firstSlug = firstSlugIn(group.items ?? []);
+					if (!firstSlug) continue;
+
+					const section = firstSlug.split('/')[0];
+
+					// Skip if an index page already exists — the section has its own landing page.
+					const hasIndex = await Promise.any([
+						access(join(contentBase, section, 'index.md')),
+						access(join(contentBase, section, 'index.mdx')),
+					]).then(() => true).catch(() => false);
+
+					if (!hasIndex) {
+						rules.push(`/${section}/  /${firstSlug}/  301`);
+						rules.push(`/${section}   /${firstSlug}/  301`);
+					}
+				}
+
+				if (rules.length === 0) return;
+
+				const redirectsPath = join(outDir, '_redirects');
+				const existing = await readFile(redirectsPath, 'utf-8').catch(() => '');
+				const block = [
+					'',
+					'# Auto-generated section redirects — do not edit here, regenerated on each build',
+					...rules,
+				].join('\n') + '\n';
+
+				await writeFile(redirectsPath, existing + block);
+				logger.info(`vault-section-redirects: wrote ${rules.length / 2} redirect(s)`);
+			},
+		},
+	};
+}
+
+// ─── Config ───────────────────────────────────────────────────────────────────
 
 export default defineConfig({
-  site: 'https://docs.labs.vaultifyuk.co.uk',
+	site: 'https://docs.labs.vaultifyuk.co.uk',
 
-  fonts: [
-      {
-          provider: fontProviders.fontsource(),
-          name: 'Montserrat',
-          cssVariable: '--font-montserrat',
-          weights: ['100 900'],
-          subsets: ['latin'],
-          display: 'block',
-      },
+	fonts: [
+		{
+			provider: fontProviders.fontsource(),
+			name: 'Montserrat',
+			cssVariable: '--font-montserrat',
+			weights: ['100 900'],
+			subsets: ['latin'],
+			display: 'block',
+		},
 	],
 
-  integrations: [
-      starlight({
-          title: 'VaultifyUK Labs Documentation',
-          description: 'Documentation and knowledge base for VaultifyUK Labs products — Shopify tools, automation, and SaaS.',
-          editLink: {
-              baseUrl: 'https://github.com/VaultifyUK/vaultifyuk-labs-docs/edit/main/'
-          },
-          logo: {
-              src: './src/assets/logo.svg',
-              alt: 'VaultifyUK Labs',
-          },
-          favicon: '/favicon.svg',
-          head: [
-              {
-                  // Force dark mode permanently — runs after ThemeProvider but before paint.
-                  // Sets both dataset.theme and localStorage so the preference survives navigation.
-                  tag: 'script',
-                  content: `(function(){document.documentElement.dataset.theme='dark';try{localStorage.setItem('starlight-theme','dark');}catch(e){}})();`,
-              },
-              {
-                  // Sidebar + TOC collapse — restores persisted state before paint, then
-                  // creates both toggle buttons once the DOM is ready.
-                  tag: 'script',
-                  content: `(function(){
+	integrations: [
+		autoSectionRedirects(sidebar),
+		starlight({
+			title: 'VaultifyUK Labs Documentation',
+			description: 'Documentation and knowledge base for VaultifyUK Labs products — Shopify tools, automation, and SaaS.',
+			editLink: {
+				baseUrl: 'https://github.com/VaultifyUK/vaultifyuk-labs-docs/edit/main/'
+			},
+			logo: {
+				src: './src/assets/logo.svg',
+				alt: 'VaultifyUK Labs',
+			},
+			favicon: '/favicon.svg',
+			head: [
+				{
+					// Force dark mode permanently — runs after ThemeProvider but before paint.
+					// Sets both dataset.theme and localStorage so the preference survives navigation.
+					tag: 'script',
+					content: `(function(){document.documentElement.dataset.theme='dark';try{localStorage.setItem('starlight-theme','dark');}catch(e){}})();`,
+				},
+				{
+					// Sidebar + TOC collapse — restores persisted state before paint, then
+					// creates both toggle buttons once the DOM is ready.
+					tag: 'script',
+					content: `(function(){
 var CHEVRON_L='<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
 var CHEVRON_R='<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
 function setAttr(attr,c){c?document.documentElement.setAttribute(attr,''):document.documentElement.removeAttribute(attr);}
@@ -84,41 +180,19 @@ function init(){
 }
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 })();`,
-              },
-          ],
-          components: {
-              Head: './src/components/Head.astro',
-              Footer: './src/components/Footer.astro',
-              PageFrame: './src/components/PageFrame.astro',
-          },
-          customCss: ['./src/styles/custom.css'],
-          social: [],
-          sidebar: [
-              {
-                  label: 'Smart Collections',
-                  items: [
-                      { label: 'Overview', slug: 'smart-collections/overview' },
-                      { label: 'Getting Started', slug: 'smart-collections/getting-started' },
-                      {
-                          label: 'Collections',
-                          items: [
-                              { label: 'Creating & Taking Over Collections', slug: 'smart-collections/creating-and-taking-over-collections' },
-                              { label: 'Rule-Based Collections', slug: 'smart-collections/rule-based-collections' },
-                              { label: 'Composed Collections', slug: 'smart-collections/composed-collections' },
-                          ],
-                      },
-                      { label: 'Product Pins', slug: 'smart-collections/product-pins' },
-                      { label: 'Sorting & Automation', slug: 'smart-collections/sorting-and-automation' },
-                      { label: 'Sync Dashboard', slug: 'smart-collections/sync-dashboard' },
-                      { label: 'Billing & Plans', slug: 'smart-collections/billing-and-plans' },
-                      { label: 'Troubleshooting', slug: 'smart-collections/troubleshooting' },
-                      { label: 'FAQ', slug: 'smart-collections/faq' },
-                  ],
-              },
-          ],
-          pagination: true,
-          lastUpdated: false,
-      }),
-      mdx({ gfm: true, optimize: true }),
-	]
+				},
+			],
+			components: {
+				Head: './src/components/Head.astro',
+				Footer: './src/components/Footer.astro',
+				PageFrame: './src/components/PageFrame.astro',
+			},
+			customCss: ['./src/styles/custom.css'],
+			social: [],
+			sidebar,
+			pagination: true,
+			lastUpdated: false,
+		}),
+		mdx({ gfm: true, optimize: true }),
+	],
 });
