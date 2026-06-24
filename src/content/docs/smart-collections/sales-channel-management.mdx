@@ -1,0 +1,160 @@
+---
+title: Sales Channel Management
+description: Control which Shopify sales channels a collection is published to — directly from the collection detail page in Smart Collections.
+sidebar:
+  order: 5
+---
+
+import { Steps, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Smart Collections lets you control which Shopify sales channels a collection is published to, without leaving the app. Publication changes are applied immediately to Shopify and recorded in Activity.
+
+---
+
+## What are sales channels?
+
+Sales channels are the storefronts and platforms where your Shopify collections can appear — for example, Online Store, Point of Sale, Google Shopping, and Facebook. Each channel can be enabled or disabled for a collection independently.
+
+Publication controls where a collection is visible, not what it contains:
+
+- Publishing a collection to a channel makes it available there.
+- Unpublishing hides it from that channel.
+- Neither action changes collection membership, rules, sort order, or baseline snapshots.
+
+---
+
+## Viewing publication status
+
+Open a collection detail page in Smart Collections. In the right-hand panel, a **Sales channels** section lists every sales channel configured for your store. Each channel shows a checkbox indicating whether the collection is currently published to it.
+
+![Sales channels panel showing Online Store checked and Point of Sale unchecked](/screenshots/placeholder.png)
+
+An **All channels** checkbox at the top reflects the combined state:
+- Checked — collection is published to every channel
+- Unchecked — collection is not published to any channel
+- Indeterminate — collection is published to some channels but not all
+
+:::note
+The **Sales channels** section only appears when your store has at least one sales channel configured. If you see no Sales channels panel, check that you have at least one channel enabled in Shopify Settings → Sales channels.
+:::
+
+---
+
+## Publishing and unpublishing
+
+Publication changes are saved together with any rule or sort changes you have made — there is no separate publish button.
+
+<Steps>
+
+1. Open the collection detail page
+
+2. Find the **Sales channels** section in the right panel
+
+3. Check the channels you want to publish to, or uncheck the channels you want to remove
+
+   Use **All channels** to publish or unpublish every channel at once
+
+4. The **Save** bar appears at the top of the page — this indicates there are unsaved changes
+
+5. Click **Save**
+
+</Steps>
+
+Smart Collections re-fetches the current channel state from Shopify at save time, computes exactly which channels need to be published or unpublished, and applies both operations in parallel. Only the channels you changed are affected.
+
+A toast confirms when changes have been saved.
+
+![Collection detail page with the Save bar visible after a channel checkbox was toggled](/screenshots/placeholder.png)
+
+---
+
+## What changes when you publish or unpublish
+
+Publishing a collection to a sales channel makes it eligible to appear in that channel. Exactly when and how it appears depends on the channel:
+
+- **Online Store** — the collection becomes available in your storefront. If it is not linked in your navigation or theme templates, customers will only be able to reach it directly via its URL.
+- **Point of Sale** — the collection is available in the Shopify POS product browser.
+- **Other channels** (Google Shopping, Facebook, Instagram, etc.) — eligibility and timing depend on the channel's own policies and sync schedule.
+
+Unpublishing hides the collection from the relevant channel. Existing orders and customer sessions are not affected.
+
+---
+
+## Activity and audit
+
+Every publication change is recorded in the [Activity](/smart-collections/activity/) timeline as a **Sales channels changed** event.
+
+### Changes made in Smart Collections
+
+When you publish or unpublish through the Smart Collections UI, the event appears with:
+
+- **Actor:** Merchant
+- **Change summary:** Names the specific channel when one channel changed; shows a count when multiple channels changed in one save
+
+Example summaries:
+
+```
+Published to Online Store
+Unpublished from Point of Sale
+Published to 2 sales channels
+Unpublished from 3 sales channels
+```
+
+### Changes detected from Shopify Admin
+
+If sales channel changes are made directly in Shopify Admin (outside of Smart Collections), the app detects the change automatically via a `collections/update` webhook and records it with:
+
+- **Actor:** Shopify Admin
+- **Change summary:** Same format as above
+
+:::note
+Shopify Admin–detected publication changes appear in Activity only after the next webhook delivery — typically within a few seconds of the change being made in Shopify. Smart Collections compares the detected state against its cached state, so the first webhook delivery after a collection is taken over populates the cache without writing an event.
+:::
+
+---
+
+## Troubleshooting
+
+### The Sales channels section does not appear
+
+Your store may have no sales channels configured, or the active channels may not be visible to the app. To verify:
+1. Go to Shopify Admin → Settings → Sales channels and permissions
+2. Confirm at least one channel is enabled
+3. Reload the collection detail page in Smart Collections
+
+### Publication failed
+
+If an error appears after clicking Save, the publication change was not applied. Common causes:
+
+- A transient Shopify API error — click **Save** again to retry
+- The channel was removed from your Shopify store between when you loaded the page and when you saved
+- A permissions issue — confirm your Shopify user account has access to the affected channel
+
+If the error message text does not suggest a specific cause, try reloading the page and applying the change again.
+
+### Collection is published but not visible on a channel
+
+Publishing a collection makes it eligible to appear on the channel. Visibility also depends on:
+
+- **Online Store** — the collection must be linked in your navigation or referenced in your theme to be browsable. Publishing alone does not add it to your menus.
+- **Google Shopping / Facebook** — these channels have their own sync schedules and product eligibility rules. A newly published collection may take time to appear.
+- Check whether the channel shows the collection as published in Shopify Admin → your collection → Sales channels.
+
+### Publication changes made in Shopify Admin are not appearing in Activity
+
+Smart Collections detects Shopify Admin publication changes via the `collections/update` webhook. If no event appears:
+
+- Wait a few minutes — webhook delivery can be delayed
+- The change may have been the very first publication event for this collection (the first delivery initialises the cache without writing an event)
+- If events are consistently missing after multiple changes, contact [support](mailto:support@labs.vaultifyuk.co.uk) with the collection name
+
+---
+
+## Related topics
+
+<CardGrid>
+  <LinkCard title="Activity" href="/smart-collections/activity/" description="Search the full history of configuration changes and Shopify Admin edits, including publication changes." />
+  <LinkCard title="Creating & Taking Over Collections" href="/smart-collections/creating-and-taking-over-collections/" description="How to connect existing Shopify collections to Smart Collections." />
+  <LinkCard title="Rule-Based Collections" href="/smart-collections/rule-based-collections/" description="Configure which products belong in a collection." />
+  <LinkCard title="Troubleshooting" href="/smart-collections/troubleshooting/" description="Diagnose sync errors and unexpected membership." />
+</CardGrid>

@@ -2,7 +2,7 @@
 title: Activity
 description: A searchable, filterable timeline of every configuration change, lifecycle event, and Shopify Admin edit across all your Smart Collections–managed collections.
 sidebar:
-  order: 10
+  order: 11
 ---
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
@@ -286,6 +286,7 @@ These events are self-describing — no change summary is shown.
 | --- | --- | --- |
 | Rule tree changed | Condition-level changes: "Added condition: tag includes 'sale'", "Removed condition: price less than 100" | Merchant |
 | Sort config changed | Field-level diffs: "Sort key changed from TITLE-ASC to PRICE-ASC", "Out-of-stock demotion enabled", "Top pins updated" | Merchant |
+| Sales channels changed | Publication changes: "Published to Online Store", "Unpublished from Point of Sale", "Published to 2 sales channels" | Merchant |
 
 ### Baseline events
 
@@ -309,7 +310,7 @@ These events are created automatically by Smart Collections when it detects that
 | Event | Change summary shown | Expected actor |
 | --- | --- | --- |
 | Shopify metadata changed | Field-level changes detected: "Name changed", "SEO title changed", "Handle changed", "Template changed" | Shopify Admin |
-| Sales channels changed | Publication changes: "Published to Google Shopping", "Unpublished from Facebook" | Shopify Admin |
+| Sales channels changed | Publication changes detected via webhook: "Published to Online Store", "Unpublished from Point of Sale" | Shopify Admin |
 | Shopify membership drift | Detected that products were manually added to or removed from the collection outside of Smart Collections — no detailed summary | Smart Collections |
 
 :::note[Actor attribution contract]
@@ -365,11 +366,13 @@ Name changed
 SEO description changed
 ```
 
-**Sales channel changes** name the affected channel where available:
+**Sales channel changes** name the specific channel when one channel changed; show a count when multiple channels changed at once:
 
 ```
-Published to Google Shopping
-Unpublished from Facebook
+Published to Online Store
+Unpublished from Point of Sale
+Published to 2 sales channels
+Unpublished from 3 sales channels
 ```
 
 ---
@@ -402,7 +405,7 @@ Include a **Clear all filters** button that resets search, filters, and date ran
 
 If the event feed fails to load, show a banner:
 
-> **Activity could not be loaded.** Refresh the page to try again. If the problem persists, contact support.
+> **Activity could not be loaded.** Refresh the page to try again. If the problem persists, contact support at support@labs.vaultifyuk.co.uk.
 
 Do not show a blank page. Existing loaded entries should remain visible if a subsequent page fails to load.
 
@@ -518,7 +521,7 @@ The following capabilities are being considered for future releases. None are co
 | **External integrations** | Push activity events to an external endpoint (webhook, Slack, etc.) in near real-time |
 | **Advanced search** | Structured query syntax for power users — for example, filtering by multiple actors or chaining event type conditions |
 
-If you have a use case that would benefit from one of these, contact support. Merchant feedback directly shapes the roadmap.
+If you have a use case that would benefit from one of these, contact us at support@labs.vaultifyuk.co.uk. Merchant feedback directly shapes the roadmap.
 
 ---
 
